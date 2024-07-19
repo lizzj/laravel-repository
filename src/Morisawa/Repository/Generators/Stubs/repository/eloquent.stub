@@ -6,7 +6,6 @@ use Morisawa\Repository\Eloquent\BaseRepository;
 use $REPOSITORY$
 use $PRESENTER$
 use $MODEL$;
-$USE_VALIDATOR$
 
 /**
  * Class $CLASS$RepositoryEloquent.

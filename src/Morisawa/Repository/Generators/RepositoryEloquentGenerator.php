@@ -71,7 +71,7 @@ class RepositoryEloquentGenerator extends Generator
             '/'
         ], '\\', $repository);
 
-        $presenter = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('presenter') . '\\' . $this->name . 'Presenter;';
+        $presenter = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('presenters') . '\\' . $this->name . 'Presenter;';
         $presenter = str_replace([
             "\\",
             '/'
