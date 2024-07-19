@@ -9,6 +9,8 @@ use Morisawa\Repository\Generators\MigrationGenerator;
 use Morisawa\Repository\Generators\ModelGenerator;
 use Morisawa\Repository\Generators\RepositoryEloquentGenerator;
 use Morisawa\Repository\Generators\RepositoryInterfaceGenerator;
+use Morisawa\Repository\Generators\PresenterGenerator;
+use Morisawa\Repository\Generators\TransformerGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -81,6 +83,15 @@ class RepositoryCommand extends Command
             'force' => $this->option('force'),
         ]));
 
+        $this->generators->push(new PresenterGenerator([
+            'name'  => $this->argument('name'),
+            'force' => $this->option('force'),
+        ]));
+        $this->generators->push(new TransformerGenerator([
+            'name'  => $this->argument('name'),
+            'force' => $this->option('force'),
+        ]));
+
         foreach ($this->generators as $generator) {
             $generator->run();
         }
@@ -99,7 +110,7 @@ class RepositoryCommand extends Command
                 'force'     => $this->option('force'),
                 'model'     => $model
             ]))->run();
-            $this->info("Repository created successfully.");
+            $this->info("Repository Interface Presenter Transformer created successfully.");
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type . ' already exists!');
 

@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 /**
  * Class RepositoryServiceProvider
  * @package Morisawa\Repository\Providers
- * @author Anderson Andrade <contato@andersonandra.de>
+ * @author Morisawa Kana
  */
 class RepositoryServiceProvider extends ServiceProvider
 {

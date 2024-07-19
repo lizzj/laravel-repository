@@ -1,22 +1,7 @@
 <?php
 
-/*
- * This file is part of the Morisawa\Fractal package.
- *
- * (c) Phil Sturgeon <me@philsturgeon.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Morisawa\Fractal\Pagination;
 
-/**
- * A paginator adapter for PhalconPHP/pagination.
- *
- * @author Thien Tran <fcduythien@gmail.com>
- * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
- */
 class PhalconFrameworkPaginatorAdapter implements PaginatorInterface
 {
     /**

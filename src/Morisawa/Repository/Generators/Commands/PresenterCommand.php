@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * Class PresenterCommand
  * @package Morisawa\Repository\Generators\Commands
- * @author Anderson Andrade <contato@andersonandra.de>
+ * @author Morisawa Kana
  */
 class PresenterCommand extends Command
 {

@@ -1,24 +1,10 @@
 <?php
 
-/*
- * This file is part of the Morisawa\Fractal package.
- *
- * (c) Phil Sturgeon <me@philsturgeon.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Morisawa\Fractal\Pagination;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-/**
- * A paginator adapter for illuminate/pagination.
- *
- * @author Maxime Beaudoin <firalabs@gmail.com>
- * @author Marc Addeo <marcaddeo@gmail.com>
- */
 class IlluminatePaginatorAdapter implements PaginatorInterface
 {
     protected LengthAwarePaginator $paginator;

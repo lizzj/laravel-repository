@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the Morisawa\Fractal package.
- *
- * (c) Phil Sturgeon <me@philsturgeon.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+
 
 namespace Morisawa\Fractal;
 
@@ -17,12 +10,6 @@ use Morisawa\Fractal\Resource\NullResource;
 use Morisawa\Fractal\Resource\Primitive;
 use Morisawa\Fractal\Resource\ResourceInterface;
 
-/**
- * All Transformer classes should extend this to utilize the convenience methods
- * collection() and item(), and make the self::$availableIncludes property available.
- * Extend it and add a `transform()` method to transform any default or included data
- * into a basic array.
- */
 abstract class TransformerAbstract
 {
     /**

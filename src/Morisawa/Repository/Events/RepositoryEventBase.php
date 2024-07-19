@@ -7,7 +7,7 @@ use Morisawa\Repository\Contracts\RepositoryInterface;
 /**
  * Class RepositoryEventBase
  * @package Morisawa\Repository\Events
- * @author Anderson Andrade <contato@andersonandra.de>
+ * @author Morisawa Kana
  */
 abstract class RepositoryEventBase
 {

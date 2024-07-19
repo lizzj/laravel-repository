@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the Morisawa\Fractal package.
- *
- * (c) Phil Sturgeon <me@philsturgeon.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- **/
 
 namespace Morisawa\Fractal;
 
@@ -19,13 +11,6 @@ use Morisawa\Fractal\Resource\NullResource;
 use Morisawa\Fractal\Resource\ResourceInterface;
 use Morisawa\Fractal\Serializer\Serializer;
 
-/**
- * Scope
- *
- * The scope class acts as a tracker, relating a specific resource in a specific
- * context. For example, the same resource could be attached to multiple scopes.
- * There are root scopes, parent scopes and child scopes.
- */
 class Scope implements \JsonSerializable
 {
     protected array $availableIncludes = [];

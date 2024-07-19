@@ -11,7 +11,7 @@ use Morisawa\Repository\Contracts\RepositoryInterface;
 /**
  * Class RequestCriteria
  * @package Morisawa\Repository\Criteria
- * @author Anderson Andrade <contato@andersonandra.de>
+ * @author Morisawa Kana
  */
 class RequestCriteria implements CriteriaInterface
 {
