@@ -1,0 +1,43 @@
+<?php
+
+$NAMESPACE$
+
+use Morisawa\Repository\Eloquent\BaseRepository;
+use $REPOSITORY$
+use $PRESENTER$
+use $MODEL$;
+$USE_VALIDATOR$
+
+/**
+ * Class $CLASS$RepositoryEloquent.
+ *
+ * @package $NAMESPACE$
+ */
+class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Repository
+{
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return $CLASS$::class;
+    }
+
+    public function presenter()
+    {
+        return app($CLASS$Presenter::class);
+    }
+
+    $VALIDATOR$
+
+    /**
+     * Boot up the repository, pushing criteria
+     */
+    public function boot()
+    {
+
+    }
+
+}
