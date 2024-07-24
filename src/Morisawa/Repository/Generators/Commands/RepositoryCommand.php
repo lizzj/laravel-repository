@@ -105,7 +105,6 @@ class RepositoryCommand extends Command
         try {
             (new RepositoryEloquentGenerator([
                 'name'      => $this->argument('name'),
-                'rules'     => $this->option('rules'),
                 'force'     => $this->option('force'),
                 'model'     => $model
             ]))->run();
