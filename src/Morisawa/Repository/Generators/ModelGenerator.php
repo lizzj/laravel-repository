@@ -2,8 +2,6 @@
 
 namespace Morisawa\Repository\Generators;
 
-use Morisawa\Repository\Generators\Migrations\SchemaParser;
-
 /**
  * Class ModelGenerator
  * @package Morisawa\Repository\Generators

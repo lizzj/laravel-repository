@@ -5,7 +5,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
-use Morisawa\Repository\Generators\MigrationGenerator;
 use Morisawa\Repository\Generators\ModelGenerator;
 use Morisawa\Repository\Generators\RepositoryEloquentGenerator;
 use Morisawa\Repository\Generators\RepositoryInterfaceGenerator;

@@ -58,7 +58,6 @@ class $CONTROLLER$Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      *
-     * @throws \Morisawa\Validator\Exceptions\ValidatorException
      */
     public function store($CLASS$CreateRequest $request)
     {

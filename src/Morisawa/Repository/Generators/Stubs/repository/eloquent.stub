@@ -29,8 +29,6 @@ class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Reposit
         return app($CLASS$Presenter::class);
     }
 
-    $VALIDATOR$
-
     /**
      * Boot up the repository, pushing criteria
      */
