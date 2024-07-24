@@ -1,9 +1,6 @@
 <?php
 
 namespace Morisawa\Repository\Generators;
-
-use Morisawa\Repository\Generators\Migrations\SchemaParser;
-
 /**
  * Class RepositoryInterfaceGenerator
  * @package Morisawa\Repository\Generators
@@ -67,36 +64,8 @@ class RepositoryInterfaceGenerator extends Generator
     public function getReplacements()
     {
         return array_merge(parent::getReplacements(), [
-            'fillable' => $this->getFillable()
+            'fillable' => '[]'
         ]);
     }
 
-    /**
-     * Get the fillable attributes.
-     *
-     * @return string
-     */
-    public function getFillable()
-    {
-        if (!$this->fillable) {
-            return '[]';
-        }
-        $results = '[' . PHP_EOL;
-
-        foreach ($this->getSchemaParser()->toArray() as $column => $value) {
-            $results .= "\t\t'{$column}'," . PHP_EOL;
-        }
-
-        return $results . "\t" . ']';
-    }
-
-    /**
-     * Get schema parser.
-     *
-     * @return SchemaParser
-     */
-    public function getSchemaParser()
-    {
-        return new SchemaParser($this->fillable);
-    }
 }

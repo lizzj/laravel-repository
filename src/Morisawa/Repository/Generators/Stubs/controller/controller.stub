@@ -5,12 +5,9 @@ $NAMESPACE$
 use Illuminate\Http\Request;
 
 use $APPNAME$Http\Requests;
-use Morisawa\Validator\Contracts\ValidatorInterface;
-use Morisawa\Validator\Exceptions\ValidatorException;
 use $APPNAME$Http\Requests\$CLASS$CreateRequest;
 use $APPNAME$Http\Requests\$CLASS$UpdateRequest;
 $REPOSITORY$
-$VALIDATOR$
 
 /**
  * Class $CONTROLLER$Controller.
@@ -25,20 +22,13 @@ class $CONTROLLER$Controller extends Controller
     protected $repository;
 
     /**
-     * @var $CLASS$Validator
-     */
-    protected $validator;
-
-    /**
      * $CONTROLLER$Controller constructor.
      *
      * @param $CLASS$Repository $repository
-     * @param $CLASS$Validator $validator
      */
-    public function __construct($CLASS$Repository $repository, $CLASS$Validator $validator)
+    public function __construct($CLASS$Repository $repository)
     {
         $this->repository = $repository;
-        $this->validator  = $validator;
     }
 
     /**
@@ -72,10 +62,6 @@ class $CONTROLLER$Controller extends Controller
      */
     public function store($CLASS$CreateRequest $request)
     {
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
             $$SINGULAR$ = $this->repository->create($request->all());
 
             $response = [
@@ -89,16 +75,7 @@ class $CONTROLLER$Controller extends Controller
             }
 
             return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
 
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
     }
 
     /**
@@ -144,39 +121,16 @@ class $CONTROLLER$Controller extends Controller
      *
      * @return Response
      *
-     * @throws \Morisawa\Validator\Exceptions\ValidatorException
      */
     public function update($CLASS$UpdateRequest $request, $id)
     {
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $$SINGULAR$ = $this->repository->update($request->all(), $id);
-
-            $response = [
+       $$SINGULAR$ = $this->repository->update($request->all(), $id);
+       $response = [
                 'message' => '$CLASS$ updated.',
                 'data'    => $$SINGULAR$->toArray(),
-            ];
+       ];
+       return response()->json($response);
 
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
     }
 
 

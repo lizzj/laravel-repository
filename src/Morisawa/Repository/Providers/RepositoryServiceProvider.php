@@ -45,8 +45,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Morisawa\Repository\Generators\Commands\RepositoryCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\TransformerCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\PresenterCommand');
-        $this->commands('Morisawa\Repository\Generators\Commands\EntityCommand');
-        $this->commands('Morisawa\Repository\Generators\Commands\ValidatorCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\ControllerCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\BindingsCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\CriteriaCommand');
