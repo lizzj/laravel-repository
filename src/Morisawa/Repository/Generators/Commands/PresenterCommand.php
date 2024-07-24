@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
@@ -40,10 +41,11 @@ class PresenterCommand extends Command
     /**
      * Execute the command.
      *
-     * @see fire()
      * @return void
+     * @see fire()
      */
-    public function handle(){
+    public function handle()
+    {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -54,25 +56,31 @@ class PresenterCommand extends Command
      */
     public function fire()
     {
-
+        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
+        foreach (explode("\\", $case_name) as $item) {
+            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+                 $this->error($case_name.' Invalid Namespace!');
+                 return false;
+            }
+        }
         try {
             (new PresenterGenerator([
-                'name'  => $this->argument('name'),
+                'name' => $case_name,
                 'force' => $this->option('force'),
             ]))->run();
             $this->info("Presenter created successfully.");
 
-            if (!\File::exists(app()->path() . '/Transformers/' . $this->argument('name') . 'Transformer.php')) {
+            if (!\File::exists(app()->path().'/Transformers/'.$case_name.'Transformer.php')) {
                 if ($this->confirm('Would you like to create a Transformer? [y|N]')) {
                     (new TransformerGenerator([
-                        'name'  => $this->argument('name'),
+                        'name' => $case_name,
                         'force' => $this->option('force'),
                     ]))->run();
                     $this->info("Transformer created successfully.");
                 }
             }
         } catch (FileAlreadyExistsException $e) {
-            $this->error($this->type . ' already exists!');
+            $this->error($this->type.' already exists!');
 
             return false;
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
@@ -42,17 +43,18 @@ class ControllerCommand extends Command
      */
     public function __construct()
     {
-        $this->name = ((float) app()->version() >= 5.5  ? 'make:rest-controller' : 'make:resource');
+        $this->name = ((float) app()->version() >= 5.5 ? 'make:rest-controller' : 'make:resource');
         parent::__construct();
     }
 
     /**
      * Execute the command.
      *
-     * @see fire()
      * @return void
+     * @see fire()
      */
-    public function handle(){
+    public function handle()
+    {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -63,26 +65,33 @@ class ControllerCommand extends Command
      */
     public function fire()
     {
+        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
+        foreach (explode("\\", $case_name) as $item) {
+            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+                $this->error($case_name.' Invalid Namespace!');
+                return false;
+            }
+        }
         try {
             // Generate create request for controller
             $this->call('make:request', [
-                'name' => $this->argument('name') . 'CreateRequest'
+                'name' => $case_name.'CreateRequest'
             ]);
 
             // Generate update request for controller
             $this->call('make:request', [
-                'name' => $this->argument('name') . 'UpdateRequest'
+                'name' => $case_name.'UpdateRequest'
             ]);
 
             (new ControllerGenerator([
-                'name' => $this->argument('name'),
+                'name' => $case_name,
                 'force' => $this->option('force'),
             ]))->run();
 
-            $this->info($this->type . ' created successfully.');
+            $this->info($this->type.' created successfully.');
 
         } catch (FileAlreadyExistsException $e) {
-            $this->error($this->type . ' already exists!');
+            $this->error($this->type.' already exists!');
 
             return false;
         }

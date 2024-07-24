@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Generators\Commands;
 
 use File;
@@ -41,10 +42,11 @@ class BindingsCommand extends Command
     /**
      * Execute the command.
      *
-     * @see fire()
      * @return void
+     * @see fire()
      */
-    public function handle(){
+    public function handle()
+    {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -55,9 +57,16 @@ class BindingsCommand extends Command
      */
     public function fire()
     {
+        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
+        foreach (explode("\\", $case_name) as $item) {
+            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+                $this->error($case_name.' Invalid Namespace!');
+                return false;
+            }
+        }
         try {
             $bindingGenerator = new BindingsGenerator([
-                'name' => $this->argument('name'),
+                'name' => $case_name,
                 'force' => $this->option('force'),
             ]);
             // generate repository service provider
@@ -73,9 +82,9 @@ class BindingsCommand extends Command
                 ]));
             }
             $bindingGenerator->run();
-            $this->info($this->type . ' created successfully.');
+            $this->info($this->type.' created successfully.');
         } catch (FileAlreadyExistsException $e) {
-            $this->error($this->type . ' already exists!');
+            $this->error($this->type.' already exists!');
 
             return false;
         }

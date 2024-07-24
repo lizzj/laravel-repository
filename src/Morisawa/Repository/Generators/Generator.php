@@ -141,7 +141,6 @@ abstract class Generator
         if (Str::contains($this->name, '/')) {
             $name = str_replace('/', '/', $this->name);
         }
-
         return Str::studly(str_replace(' ', '/', ucwords(str_replace('/', ' ', $name))));
     }
 

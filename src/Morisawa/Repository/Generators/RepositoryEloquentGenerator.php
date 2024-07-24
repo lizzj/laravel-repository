@@ -1,6 +1,7 @@
 <?php
 namespace Morisawa\Repository\Generators;
 
+use Illuminate\Support\Str;
 /**
  * Class RepositoryEloquentGenerator
  * @package Morisawa\Repository\Generators
@@ -63,13 +64,14 @@ class RepositoryEloquentGenerator extends Generator
      */
     public function getReplacements()
     {
-        $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . $this->name . 'Repository;';
+
+        $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . Str::ucfirst($this->name) . 'Repository;';
         $repository = str_replace([
             "\\",
             '/'
         ], '\\', $repository);
 
-        $presenter = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('presenters') . '\\' . $this->name . 'Presenter;';
+        $presenter = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('presenters') . '\\' . Str::ucfirst($this->name) . 'Presenter;';
         $presenter = str_replace([
             "\\",
             '/'

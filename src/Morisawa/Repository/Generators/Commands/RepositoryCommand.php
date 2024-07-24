@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
@@ -51,10 +52,11 @@ class RepositoryCommand extends Command
     /**
      * Execute the command.
      *
-     * @see fire()
      * @return void
+     * @see fire()
      */
-    public function handle(){
+    public function handle()
+    {
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -66,11 +68,17 @@ class RepositoryCommand extends Command
     public function fire()
     {
         $this->generators = new Collection();
-
+        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
+        foreach (explode("\\", $case_name) as $item) {
+            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+                 $this->error($case_name.' Invalid Namespace!');
+                 return false;
+            }
+        }
         $modelGenerator = new ModelGenerator([
-            'name'     => $this->argument('name'),
+            'name' => $case_name,
             'fillable' => $this->option('fillable'),
-            'force'    => $this->option('force')
+            'force' => $this->option('force')
         ]);
 
         if (!$this->option('skip-model')) {
@@ -78,16 +86,16 @@ class RepositoryCommand extends Command
         }
 
         $this->generators->push(new RepositoryInterfaceGenerator([
-            'name'  => $this->argument('name'),
+            'name' => $case_name,
             'force' => $this->option('force'),
         ]));
 
         $this->generators->push(new PresenterGenerator([
-            'name'  => $this->argument('name'),
+            'name' => $case_name,
             'force' => $this->option('force'),
         ]));
         $this->generators->push(new TransformerGenerator([
-            'name'  => $this->argument('name'),
+            'name' => $case_name,
             'force' => $this->option('force'),
         ]));
 
@@ -95,7 +103,7 @@ class RepositoryCommand extends Command
             $generator->run();
         }
 
-        $model = $modelGenerator->getRootNamespace() . '\\' . $modelGenerator->getName();
+        $model = $modelGenerator->getRootNamespace().'\\'.$modelGenerator->getName();
         $model = str_replace([
             "\\",
             '/'
@@ -103,13 +111,13 @@ class RepositoryCommand extends Command
 
         try {
             (new RepositoryEloquentGenerator([
-                'name'      => $this->argument('name'),
-                'force'     => $this->option('force'),
-                'model'     => $model
+                'name' => $case_name,
+                'force' => $this->option('force'),
+                'model' => $model
             ]))->run();
             $this->info("Repository Interface Presenter Transformer created successfully.");
         } catch (FileAlreadyExistsException $e) {
-            $this->error($this->type . ' already exists!');
+            $this->error($this->type.' already exists!');
 
             return false;
         }
