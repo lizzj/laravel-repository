@@ -27,7 +27,7 @@ class RepositoryCommand extends Command
      *
      * @var string
      */
-    protected $name = 'make:repository';
+    protected $name = 'mino:repository';
 
     /**
      * The description of command.

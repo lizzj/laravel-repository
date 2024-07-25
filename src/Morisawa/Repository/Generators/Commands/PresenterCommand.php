@@ -22,7 +22,7 @@ class PresenterCommand extends Command
      *
      * @var string
      */
-    protected $name = 'make:presenter';
+    protected $name = 'mino:presenter';
 
     /**
      * The description of command.

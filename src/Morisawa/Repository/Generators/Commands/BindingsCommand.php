@@ -23,7 +23,7 @@ class BindingsCommand extends Command
      *
      * @var string
      */
-    protected $name = 'make:bindings';
+    protected $name = 'mino:bindings';
 
     /**
      * The description of command.

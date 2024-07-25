@@ -22,7 +22,7 @@ class ControllerCommand extends Command
      *
      * @var string
      */
-    protected $name = 'make:resource';
+    protected $name = 'mino:resource';
 
     /**
      * The description of command.

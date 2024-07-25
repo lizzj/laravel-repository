@@ -20,7 +20,7 @@ class CriteriaCommand extends Command
      *
      * @var string
      */
-    protected $name = 'make:criteria';
+    protected $name = 'mino:criteria';
 
     /**
      * The description of command.

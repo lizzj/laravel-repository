@@ -22,7 +22,7 @@ class TransformerCommand extends Command
      *
      * @var string
      */
-    protected $name = 'make:transformer';
+    protected $name = 'mino:transformer';
 
     /**
      * The description of command.
