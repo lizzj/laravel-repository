@@ -66,12 +66,10 @@ class TransformerCommand extends Command
         try {
             (new TransformerGenerator([
                 'name' => $case_name,
-                'force' => $this->option('force'),
             ]))->run();
             $this->info("Transformer created successfully.");
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type.' already exists!');
-
             return false;
         }
     }
@@ -91,24 +89,6 @@ class TransformerCommand extends Command
                 'The name of model for which the transformer is being generated.',
                 null
             ],
-        ];
-    }
-
-    /**
-     * The array of command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
-                null
-            ]
         ];
     }
 }

@@ -23,7 +23,7 @@ class BindingsCommand extends Command
      *
      * @var string
      */
-    protected $name = 'mino:bindings';
+    protected $name = 'mino:bind';
 
     /**
      * The description of command.
@@ -66,8 +66,7 @@ class BindingsCommand extends Command
         }
         try {
             $bindingGenerator = new BindingsGenerator([
-                'name' => $case_name,
-                'force' => $this->option('force'),
+                'name' => $case_name
             ]);
             // generate repository service provider
             if (!file_exists($bindingGenerator->getPath())) {
@@ -85,7 +84,6 @@ class BindingsCommand extends Command
             $this->info($this->type.' created successfully.');
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type.' already exists!');
-
             return false;
         }
     }
@@ -108,22 +106,4 @@ class BindingsCommand extends Command
         ];
     }
 
-
-    /**
-     * The array of command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
-                null
-            ],
-        ];
-    }
 }

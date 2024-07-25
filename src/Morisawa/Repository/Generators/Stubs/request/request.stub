@@ -1,0 +1,32 @@
+<?php
+$NAMESPACE$
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class $CLASS$Request extends FormRequest
+{
+    /**
+     * If set to true, the validation will stop on the first failure.
+     * This helps in reducing unnecessary validation overhead and provides faster feedback.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+
+    /**
+     * Get the validation rules that apply to the request.
+     */
+    public function rules(): array
+    {
+        return [
+            //
+        ];
+    }
+    /**
+     * Get the custom validation error messages.
+    */
+    public function messages()
+    {
+        return trans('_Validation.$MESSAGES$');
+    }
+}

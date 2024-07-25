@@ -64,9 +64,7 @@ class CriteriaCommand extends Command
         try {
             (new CriteriaGenerator([
                 'name' => $case_name,
-                'force' => $this->option('force'),
             ]))->run();
-
             $this->info("Criteria created successfully.");
         } catch (FileAlreadyExistsException $ex) {
             $this->error($this->type.' already exists!');
@@ -86,24 +84,6 @@ class CriteriaCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of class being generated.',
-                null
-            ],
-        ];
-    }
-
-    /**
-     * The array of command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
                 null
             ],
         ];

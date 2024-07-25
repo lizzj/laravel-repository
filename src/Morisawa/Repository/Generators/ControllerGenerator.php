@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Generators;
 
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class ControllerGenerator extends Generator
      */
     public function getRootNamespace()
     {
-        return str_replace('/', '\\', parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode()));
+        return str_replace('/', '\\', parent::getRootNamespace().parent::getConfigGeneratorClassPath($this->getPathConfigNode()));
     }
 
     /**
@@ -45,7 +46,7 @@ class ControllerGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getControllerName() . 'Controller.php';
+        return $this->getBasePath().'/'.parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true).'/'.$this->getName().'Controller.php';
     }
 
     /**
@@ -76,8 +77,7 @@ class ControllerGenerator extends Generator
      */
     public function getPluralName()
     {
-
-        return Str::plural(lcfirst(ucwords($this->getClass())));
+        return lcfirst(ucwords($this->getClass()));
     }
 
     /**
@@ -87,13 +87,14 @@ class ControllerGenerator extends Generator
      */
     public function getReplacements()
     {
-
+        $request = str_replace([
+            "\\",
+            '/'
+        ], '\\', $this->getName());
         return array_merge(parent::getReplacements(), [
             'controller' => $this->getControllerName(),
-            'plural'     => $this->getPluralName(),
-            'singular'   => $this->getSingularName(),
-            'repository' => $this->getRepository(),
-            'appname'    => $this->getAppNamespace(),
+            'request' => $request,
+            'appname' => $this->getAppNamespace(),
         ]);
     }
 
@@ -107,22 +108,4 @@ class ControllerGenerator extends Generator
         return Str::singular(lcfirst(ucwords($this->getClass())));
     }
 
-    /**
-     * Gets repository full class name
-     *
-     * @return string
-     */
-    public function getRepository()
-    {
-        $repositoryGenerator = new RepositoryInterfaceGenerator([
-            'name' => $this->name,
-        ]);
-
-        $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
-
-        return 'use ' . str_replace([
-            "\\",
-            '/'
-        ], '\\', $repository) . 'Repository;';
-    }
 }

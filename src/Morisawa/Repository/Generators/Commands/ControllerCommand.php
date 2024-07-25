@@ -5,6 +5,7 @@ namespace Morisawa\Repository\Generators\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Morisawa\Repository\Generators\ControllerGenerator;
+use Morisawa\Repository\Generators\RequestGenerator;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,7 +23,7 @@ class ControllerCommand extends Command
      *
      * @var string
      */
-    protected $name = 'mino:resource';
+    protected $name = 'mino:controller';
 
     /**
      * The description of command.
@@ -37,15 +38,6 @@ class ControllerCommand extends Command
      * @var string
      */
     protected $type = 'Controller';
-
-    /**
-     * ControllerCommand constructor.
-     */
-    public function __construct()
-    {
-        $this->name = ((float) app()->version() >= 5.5 ? 'make:rest-controller' : 'make:resource');
-        parent::__construct();
-    }
 
     /**
      * Execute the command.
@@ -73,32 +65,50 @@ class ControllerCommand extends Command
             }
         }
         try {
-            // Generate create request for controller
-            $this->call('make:request', [
-                'name' => $case_name.'CreateRequest'
-            ]);
-
-            // Generate update request for controller
-            $this->call('make:request', [
-                'name' => $case_name.'UpdateRequest'
-            ]);
-
+            $choices = [
+                1 => 'CreateRequest And UpdateRequest',
+                2 => 'CreateRequest',
+                3 => 'UpdateRequest',
+                0 => 'Nothing'
+            ];
+            $request_option = $this->choice(
+                'What would you like to do?',
+                $choices,
+                0
+            );
+            $generateRequests = function ($case_name, $requests) {
+                foreach ($requests as $request) {
+                    (new RequestGenerator(['name' => $case_name.'/'.$request]))->run();
+                }
+            };
+            $action = match (array_search($request_option, $choices)) {
+                1 => function () use ($case_name, $generateRequests) {
+                    $generateRequests($case_name, ['Create', 'Update']);
+                    $this->info('CreateRequest and UpdateRequest created successfully.');
+                },
+                2 => function () use ($case_name, $generateRequests) {
+                    $generateRequests($case_name, ['Create']);
+                    $this->info('CreateRequest created successfully.');
+                },
+                3 => function () use ($case_name, $generateRequests) {
+                    $generateRequests($case_name, ['Update']);
+                    $this->info('UpdateRequest created successfully.');
+                },
+                default => function () {
+                    $this->info('No request created.');
+                },
+            };
+            call_user_func($action);
             (new ControllerGenerator([
-                'name' => $case_name,
-                'force' => $this->option('force'),
+                'name' => $case_name
             ]))->run();
-
             $this->info($this->type.' created successfully.');
-
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type.' already exists!');
-
             return false;
         }
     }
-
-
-    /**
+        /**
      * The array of command arguments.
      *
      * @return array
@@ -109,28 +119,10 @@ class ControllerCommand extends Command
             [
                 'name',
                 InputArgument::REQUIRED,
-                'The name of model for which the controller is being generated.',
+                'The name of class being generated.',
                 null
             ],
         ];
     }
 
-
-    /**
-     * The array of command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
-                null
-            ],
-        ];
-    }
 }

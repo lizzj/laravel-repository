@@ -66,7 +66,7 @@ class PresenterCommand extends Command
         try {
             (new PresenterGenerator([
                 'name' => $case_name,
-                'force' => $this->option('force'),
+                
             ]))->run();
             $this->info("Presenter created successfully.");
 
@@ -74,7 +74,7 @@ class PresenterCommand extends Command
                 if ($this->confirm('Would you like to create a Transformer? [y|N]')) {
                     (new TransformerGenerator([
                         'name' => $case_name,
-                        'force' => $this->option('force'),
+                        
                     ]))->run();
                     $this->info("Transformer created successfully.");
                 }
@@ -101,25 +101,6 @@ class PresenterCommand extends Command
                 'The name of model for which the presenter is being generated.',
                 null
             ],
-        ];
-    }
-
-
-    /**
-     * The array of command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            [
-                'force',
-                'f',
-                InputOption::VALUE_NONE,
-                'Force the creation if file already exists.',
-                null
-            ]
         ];
     }
 }

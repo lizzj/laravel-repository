@@ -217,6 +217,9 @@ abstract class Generator
             case ('controllers' === $class):
                 $path = config('repository.generator.paths.controllers', 'Http\Controllers');
                 break;
+            case ('validators' === $class):
+                $path = config('repository.generator.paths.validators', 'Http\Requests');
+                break;
             case ('provider' === $class):
                 $path = config('repository.generator.paths.provider', 'RepositoryServiceProvider');
                 break;
@@ -279,7 +282,7 @@ abstract class Generator
     public function run()
     {
         $this->setUp();
-        if ($this->filesystem->exists($path = $this->getPath()) && !$this->force) {
+        if ($this->filesystem->exists($path = $this->getPath())) {
             throw new FileAlreadyExistsException($path);
         }
         if (!$this->filesystem->isDirectory($dir = dirname($path))) {
