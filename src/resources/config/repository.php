@@ -238,6 +238,7 @@ return [
             'transformers' => 'Repositories\Transformers',
             'presenters' => 'Repositories\Presenters',
             'controllers' => 'Http/Controllers',
+            'validators' => 'Http\Requests',
             'provider' => 'RepositoryServiceProvider',
             'criteria' => 'Repositories\Criteria'
         ]
