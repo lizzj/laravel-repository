@@ -27,6 +27,6 @@ class $CLASS$Request extends FormRequest
     */
     public function messages()
     {
-        return trans('_Validation.$MESSAGES$');
+         return is_array($translation = trans('_Validation.$MESSAGES$')) ? $translation : [];
     }
 }

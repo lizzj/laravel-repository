@@ -25,7 +25,7 @@ class $CLASS$Transformer extends TransformerAbstract
             'id'         => (int) $model->id,
 
             /* place your other model properties here */
-
+            /* tip:  created_at  getTimestamp() */
             'created_at' => $model->created_at
         ];
     }
