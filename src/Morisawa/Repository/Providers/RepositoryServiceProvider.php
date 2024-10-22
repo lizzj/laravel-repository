@@ -46,6 +46,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Morisawa\Repository\Generators\Commands\ControllerCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\BindingsCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\CriteriaCommand');
+        $this->commands('Morisawa\Repository\Generators\Commands\RequestCommand');
         $this->app->register('Morisawa\Repository\Providers\EventServiceProvider');
     }
 
