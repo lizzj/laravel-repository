@@ -72,7 +72,7 @@ class RepositoryCommand extends Command
         $case_name = \Illuminate\Support\Str::title($this->argument("name"));
         foreach (explode("\\", $case_name) as $item) {
             if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
-                $this->error($case_name.' Invalid Namespace!');
+                $this->error($case_name . ' Invalid Namespace!');
                 return false;
             }
         }
@@ -93,7 +93,7 @@ class RepositoryCommand extends Command
         foreach ($this->generators as $generator) {
             $generator->run();
         }
-        $model = $modelGenerator->getRootNamespace().'\\'.$modelGenerator->getName();
+        $model = $modelGenerator->getRootNamespace() . '\\' . $modelGenerator->getName();
         $model = str_replace([
             "\\",
             '/'
@@ -107,7 +107,7 @@ class RepositoryCommand extends Command
             \Illuminate\Support\Facades\Artisan::call("mino:bind", ["name" => $this->argument("name")]);
             $this->info("Repository Interface Presenter Transformer created successfully.");
         } catch (FileAlreadyExistsException $e) {
-            $this->error($this->type.' already exists!');
+            $this->error($this->type . ' already exists!');
 
             return false;
         }
