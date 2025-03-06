@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Generators;
 
 /**
@@ -14,7 +15,8 @@ class BindingsGenerator extends Generator
      *
      * @var string
      */
-    public $bindPlaceholder = '//:end-bindings:';
+    public $bindPlaceholder = '/\/\/\s*:end-bindings:/'; // 修正后的正则表达式
+
     /**
      * Get stub name.
      *
@@ -28,7 +30,15 @@ class BindingsGenerator extends Generator
         $provider = \File::get($this->getPath());
         $repositoryInterface = '\\' . $this->getRepository() . "::class";
         $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
-        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+
+        // 使用正则表达式替换
+        $provider = preg_replace(
+            $this->bindPlaceholder,
+            "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        // :end-bindings:',
+            $provider
+        );
+
+        \File::put($this->getPath(), $provider);
     }
 
     /**
@@ -75,9 +85,9 @@ class BindingsGenerator extends Generator
         $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
 
         return str_replace([
-            "\\",
-            '/'
-        ], '\\', $repository) . 'Repository';
+                "\\",
+                '/'
+            ], '\\', $repository) . 'Repository';
     }
 
     /**
@@ -94,9 +104,9 @@ class BindingsGenerator extends Generator
         $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
 
         return str_replace([
-            "\\",
-            '/'
-        ], '\\', $repository) . 'RepositoryEloquent';
+                "\\",
+                '/'
+            ], '\\', $repository) . 'RepositoryEloquent';
     }
 
     /**
