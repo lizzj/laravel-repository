@@ -2,6 +2,7 @@
 
 $NAMESPACE$
 
+use AllowDynamicProperties;
 use App\Http\Controllers\Controller;
 use $APPNAME$Http\Requests\$REQUEST$\CreateRequest;
 use $APPNAME$Http\Requests\$REQUEST$\UpdateRequest;
@@ -11,7 +12,7 @@ use $APPNAME$Http\Requests\$REQUEST$\UpdateRequest;
  *
  * @package $NAMESPACE$
  */
-class $CONTROLLER$Controller extends Controller
+#[AllowDynamicProperties] class $CONTROLLER$Controller extends Controller
 {
 
     public function __construct()
