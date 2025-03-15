@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Resource;
 
 /**
@@ -10,6 +8,4 @@ namespace Morisawa\Fractal\Resource;
  * The Primitive Resource can store any primitive data, like a string, integer,
  * float, double etc.
  */
-class Primitive extends ResourceAbstract
-{
-}
+class Primitive extends ResourceAbstract {}

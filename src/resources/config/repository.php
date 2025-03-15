@@ -1,4 +1,5 @@
 <?php
+
 /*
 |--------------------------------------------------------------------------
 | Morisawa Repository Config
@@ -15,7 +16,7 @@ return [
     |
     */
     'pagination' => [
-        'limit' => 20
+        'limit' => 20,
     ],
 
     /*
@@ -30,11 +31,11 @@ return [
     JsonApiSerializer
 
     */
-    'fractal'    => [
-        'params'     => [
-            'include' => 'include'
+    'fractal' => [
+        'params' => [
+            'include' => 'include',
         ],
-        'serializer' => Morisawa\Fractal\Serializer\DataArraySerializer::class
+        'serializer' => Morisawa\Fractal\Serializer\DataArraySerializer::class,
     ],
 
     /*
@@ -43,7 +44,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'cache'      => [
+    'cache' => [
         /*
          |--------------------------------------------------------------------------
          | Cache Status
@@ -52,7 +53,7 @@ return [
          | Enable or disable cache
          |
          */
-        'enabled'    => false,
+        'enabled' => false,
 
         /*
          |--------------------------------------------------------------------------
@@ -62,7 +63,7 @@ return [
          | Time of expiration cache
          |
          */
-        'minutes'    => 30,
+        'minutes' => 30,
 
         /*
          |--------------------------------------------------------------------------
@@ -82,7 +83,7 @@ return [
           |
           |
           */
-        'clean'      => [
+        'clean' => [
 
             /*
               |--------------------------------------------------------------------------
@@ -102,14 +103,14 @@ return [
               | delete : Clear Cache on delete Entry in repository
               |
               */
-            'on'      => [
+            'on' => [
                 'create' => true,
                 'update' => true,
                 'delete' => true,
-            ]
+            ],
         ],
 
-        'params'     => [
+        'params' => [
             /*
             |--------------------------------------------------------------------------
             | Skip Cache Params
@@ -119,7 +120,7 @@ return [
             | Ex: http://Morisawa.local/?search=lorem&skipCache=true
             |
             */
-            'skipCache' => 'skipCache'
+            'skipCache' => 'skipCache',
         ],
 
         /*
@@ -137,10 +138,10 @@ return [
        |
        | 'except'  =>['find'],
        */
-        'allowed'    => [
-            'only'   => null,
-            'except' => null
-        ]
+        'allowed' => [
+            'only' => null,
+            'except' => null,
+        ],
     ],
 
     /*
@@ -151,7 +152,7 @@ return [
     | Settings of request parameters names that will be used by Criteria
     |
     */
-    'criteria'   => [
+    'criteria' => [
         /*
         |--------------------------------------------------------------------------
         | Accepted Conditions
@@ -170,7 +171,7 @@ return [
         'acceptedConditions' => [
             '=',
             'like',
-            'in'
+            'in',
         ],
         /*
         |--------------------------------------------------------------------------
@@ -210,16 +211,16 @@ return [
         |   http://Morisawa.local/?search=lorem&searchJoin=or
         |
         */
-        'params'             => [
-            'search'       => 'search',
+        'params' => [
+            'search' => 'search',
             'searchFields' => 'searchFields',
-            'filter'       => 'filter',
-            'orderBy'      => 'orderBy',
-            'sortedBy'     => 'sortedBy',
-            'with'         => 'with',
-            'searchJoin'   => 'searchJoin',
-            'withCount'    => 'withCount'
-        ]
+            'filter' => 'filter',
+            'orderBy' => 'orderBy',
+            'sortedBy' => 'sortedBy',
+            'with' => 'with',
+            'searchJoin' => 'searchJoin',
+            'withCount' => 'withCount',
+        ],
     ],
     /*
     |--------------------------------------------------------------------------
@@ -227,11 +228,11 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'generator'  => [
-        'basePath'      => app()->path(),
+    'generator' => [
+        'basePath' => app()->path(),
         'rootNamespace' => 'App\\',
         'stubsOverridePath' => app()->path(),
-        'paths'         => [
+        'paths' => [
             'models' => 'Models',
             'repositories' => 'Repositories\Eloquent',
             'interfaces' => 'Repositories\Interfaces',
@@ -240,7 +241,7 @@ return [
             'controllers' => 'Http/Controllers',
             'validators' => 'Http\Requests',
             'provider' => 'RepositoryServiceProvider',
-            'criteria' => 'Repositories\Criteria'
-        ]
-    ]
+            'criteria' => 'Repositories\Criteria',
+        ],
+    ],
 ];

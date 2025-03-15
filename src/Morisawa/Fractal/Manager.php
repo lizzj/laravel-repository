@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal;
 
 use Morisawa\Fractal\Resource\ResourceInterface;
@@ -54,9 +52,9 @@ class Manager
      */
     private ScopeFactoryInterface $scopeFactory;
 
-    public function __construct(ScopeFactoryInterface $scopeFactory = null)
+    public function __construct(?ScopeFactoryInterface $scopeFactory = null)
     {
-        $this->scopeFactory = $scopeFactory ?: new ScopeFactory();
+        $this->scopeFactory = $scopeFactory ?: new ScopeFactory;
     }
 
     /**
@@ -65,7 +63,7 @@ class Manager
     public function createData(
         ResourceInterface $resource,
         ?string $scopeIdentifier = null,
-        Scope $parentScopeInstance = null
+        ?Scope $parentScopeInstance = null
     ): Scope {
         if ($parentScopeInstance !== null) {
             return $this->scopeFactory->createChildScopeFor($this, $parentScopeInstance, $resource, $scopeIdentifier);
@@ -94,14 +92,14 @@ class Manager
     public function getSerializer(): Serializer
     {
         if (! $this->serializer) {
-            $this->serializer = new DataArraySerializer();
+            $this->serializer = new DataArraySerializer;
         }
 
         return $this->serializer;
     }
 
     /**
-     * @param array|string $includes Array or csv string of resources to include
+     * @param  array|string  $includes  Array or csv string of resources to include
      */
     public function parseIncludes($includes): self
     {
@@ -120,9 +118,9 @@ class Manager
         }
 
         foreach ($includes as $include) {
-            list($includeName, $allModifiersStr) = array_pad(explode(':', $include, 2), 2, '');
+            [$includeName, $allModifiersStr] = array_pad(explode(':', $include, 2), 2, '');
             $a = $allModifiersStr ? explode('.', $allModifiersStr, 2) : [''];
-            list($allModifiersStr, $subRelations) = array_pad($a, 2, null);
+            [$allModifiersStr, $subRelations] = array_pad($a, 2, null);
 
             // Trim it down to a cool level of recursion
             $includeName = $this->trimToAcceptableRecursionLevel($includeName);
@@ -160,7 +158,7 @@ class Manager
             $this->includeParams[$includeName] = $modifierArr;
 
             if ($subRelations) {
-                $this->requestedIncludes[] = $this->trimToAcceptableRecursionLevel($includeName . '.' . $subRelations);
+                $this->requestedIncludes[] = $this->trimToAcceptableRecursionLevel($includeName.'.'.$subRelations);
             }
         }
 
@@ -173,9 +171,9 @@ class Manager
     /**
      * Parse field parameter.
      *
-     * @param array $fieldsets Array of fields to include. It must be an array whose keys
-     *                         are resource types and values an array or a string
-     *                         of the fields to return, separated by a comma
+     * @param  array  $fieldsets  Array of fields to include. It must be an array whose keys
+     *                            are resource types and values an array or a string
+     *                            of the fields to return, separated by a comma
      */
     public function parseFieldsets(array $fieldsets): self
     {
@@ -185,11 +183,13 @@ class Manager
                 $fields = explode(',', $fields);
             }
 
-            //Remove empty and repeated fields
+            // Remove empty and repeated fields
             $this->requestedFieldsets[$type] = array_unique(array_filter($fields));
         }
+
         return $this;
     }
+
     public function getRequestedFieldsets(): array
     {
         return $this->requestedFieldsets;
@@ -200,13 +200,13 @@ class Manager
      */
     public function getFieldset(string $type): ?ParamBag
     {
-        return !isset($this->requestedFieldsets[$type]) ?
+        return ! isset($this->requestedFieldsets[$type]) ?
             null :
             new ParamBag($this->requestedFieldsets[$type]);
     }
 
     /**
-     * @param array|string $excludes Array or csv string of resources to exclude
+     * @param  array|string  $excludes  Array or csv string of resources to exclude
      */
     public function parseExcludes($excludes): self
     {

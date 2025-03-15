@@ -3,21 +3,17 @@
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Morisawa\Repository\Generators\ControllerGenerator;
-use Morisawa\Repository\Generators\RequestGenerator;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
+use Morisawa\Repository\Generators\RequestGenerator;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class ControllerCommand
- * @package Morisawa\Repository\Generators\Commands
+ *
  * @author Morisawa Kana
  */
 class RequestCommand extends Command
 {
-
     /**
      * The name of command.
      *
@@ -43,6 +39,7 @@ class RequestCommand extends Command
      * Execute the command.
      *
      * @return void
+     *
      * @see fire()
      */
     public function handle()
@@ -58,12 +55,13 @@ class RequestCommand extends Command
     public function fire()
     {
         // Normalize the case name
-        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
+        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
 
         // Validate the namespace
-        foreach (explode("\\", $case_name) as $item) {
-            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+        foreach (explode('\\', $case_name) as $item) {
+            if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
                 $this->error($case_name.' Invalid Namespace!');
+
                 return false;
             }
         }
@@ -71,15 +69,15 @@ class RequestCommand extends Command
         try {
             // Define choices
             (new RequestGenerator([
-                'name' => $case_name
+                'name' => $case_name,
             ]))->run();
-            $this->info("Validator created successfully.");
+            $this->info('Validator created successfully.');
         } catch (FileAlreadyExistsException $e) {
             $this->error('File already exists!');
+
             return false;
         }
     }
-
 
     /**
      * The array of command arguments.
@@ -93,9 +91,8 @@ class RequestCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of class being generated.',
-                null
+                null,
             ],
         ];
     }
-
 }

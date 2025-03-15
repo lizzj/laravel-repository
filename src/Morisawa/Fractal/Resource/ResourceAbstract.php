@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Resource;
 
 use Morisawa\Fractal\TransformerAbstract;
@@ -33,8 +31,8 @@ abstract class ResourceAbstract implements ResourceInterface
     protected $transformer;
 
     /**
-     * @param mixed                             $data
-     * @param callable|TransformerAbstract|null $transformer
+     * @param  mixed  $data
+     * @param  callable|TransformerAbstract|null  $transformer
      */
     public function __construct($data = null, $transformer = null, ?string $resourceKey = null)
     {
@@ -57,13 +55,13 @@ abstract class ResourceAbstract implements ResourceInterface
     /**
      * Set the data.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      */
     public function setData($data): self
     {
-         $this->data = $data;
+        $this->data = $data;
 
-         return $this;
+        return $this;
     }
 
     /**
@@ -103,7 +101,7 @@ abstract class ResourceAbstract implements ResourceInterface
     /**
      * Set the transformer.
      *
-     * @param callable|TransformerAbstract $transformer
+     * @param  callable|TransformerAbstract  $transformer
      */
     public function setTransformer($transformer): self
     {
@@ -125,7 +123,7 @@ abstract class ResourceAbstract implements ResourceInterface
     /**
      * Set one meta data value.
      *
-     * @param mixed  $metaValue
+     * @param  mixed  $metaValue
      */
     public function setMetaValue(string $metaKey, $metaValue): self
     {

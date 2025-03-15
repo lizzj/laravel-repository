@@ -1,6 +1,6 @@
 <?php
-namespace Morisawa\Fractal\Pagination;
 
+namespace Morisawa\Fractal\Pagination;
 
 interface PaginatorInterface
 {

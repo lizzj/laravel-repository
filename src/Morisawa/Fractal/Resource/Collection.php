@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Resource;
 
 use ArrayIterator;

@@ -3,7 +3,6 @@
 namespace Morisawa\Repository\Eloquent;
 
 use Closure;
-use Exception;
 use Illuminate\Container\Container as Application;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,10 +25,9 @@ use Morisawa\Repository\Traits\ComparesVersionsTrait;
 /**
  * Class BaseRepository
  *
- * @package Morisawa\Repository\Eloquent
  * @author  Morisawa Kana
  */
-abstract class BaseRepository implements RepositoryInterface, RepositoryCriteriaInterface
+abstract class BaseRepository implements RepositoryCriteriaInterface, RepositoryInterface
 {
     use ComparesVersionsTrait;
 
@@ -75,21 +73,15 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      */
     protected $scopeQuery = null;
 
-    /**
-     * @param Application $app
-     */
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->criteria = new Collection();
+        $this->criteria = new Collection;
         $this->makeModel();
         $this->makePresenter();
         $this->boot();
     }
 
-    /**
-     *
-     */
     public function boot()
     {
         //
@@ -129,10 +121,10 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     {
         return null;
     }
+
     /**
      * Set Presenter
      *
-     * @param $presenter
      *
      * @return $this
      */
@@ -145,13 +137,14 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
 
     /**
      * @return Model
+     *
      * @throws RepositoryException
      */
     public function makeModel()
     {
         $model = $this->app->make($this->model());
 
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             throw new RepositoryException("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }
 
@@ -159,19 +152,19 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     }
 
     /**
-     * @param null $presenter
-     *
+     * @param  null  $presenter
      * @return PresenterInterface
+     *
      * @throws RepositoryException
      */
     public function makePresenter($presenter = null)
     {
-        $presenter = !is_null($presenter) ? $presenter : $this->presenter();
+        $presenter = ! is_null($presenter) ? $presenter : $this->presenter();
 
-        if (!is_null($presenter)) {
+        if (! is_null($presenter)) {
             $this->presenter = is_string($presenter) ? $this->app->make($presenter) : $presenter;
 
-            if (!$this->presenter instanceof PresenterInterface) {
+            if (! $this->presenter instanceof PresenterInterface) {
                 throw new RepositoryException("Class {$presenter} must be an instance of Morisawa\\Repository\\Contracts\\PresenterInterface");
             }
 
@@ -180,6 +173,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
 
         return null;
     }
+
     /**
      * Get Searchable Fields
      *
@@ -193,7 +187,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Query Scope
      *
-     * @param \Closure $scope
      *
      * @return $this
      */
@@ -207,9 +200,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve data array for populate field select
      *
-     * @param string      $column
-     * @param string|null $key
-     *
+     * @param  string  $column
+     * @param  string|null  $key
      * @return \Illuminate\Support\Collection|array
      */
     public function lists($column, $key = null)
@@ -223,9 +215,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      * Retrieve data array for populate field select
      * Compatible with Laravel 5.3
      *
-     * @param string      $column
-     * @param string|null $key
-     *
+     * @param  string  $column
+     * @param  string|null  $key
      * @return \Illuminate\Support\Collection|array
      */
     public function pluck($column, $key = null)
@@ -238,11 +229,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Sync relations
      *
-     * @param      $id
-     * @param      $relation
-     * @param      $attributes
-     * @param bool $detaching
-     *
+     * @param  bool  $detaching
      * @return mixed
      */
     public function sync($id, $relation, $attributes, $detaching = true)
@@ -253,9 +240,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * SyncWithoutDetaching
      *
-     * @param $id
-     * @param $relation
-     * @param $attributes
      *
      * @return mixed
      */
@@ -267,8 +251,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve all data of repository
      *
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function all($columns = ['*'])
@@ -291,9 +274,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Count results of repository
      *
-     * @param array  $where
-     * @param string $columns
-     *
+     * @param  string  $columns
      * @return int
      */
     public function count(array $where = [], $columns = '*')
@@ -316,8 +297,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Alias of All method
      *
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function get($columns = ['*'])
@@ -328,8 +308,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve first data of repository
      *
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function first($columns = ['*'])
@@ -347,7 +326,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve first data of repository, or return new Entity
      *
-     * @param array $attributes
      *
      * @return mixed
      */
@@ -370,7 +348,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve first data of repository, or create new Entity
      *
-     * @param array $attributes
      *
      * @return mixed
      */
@@ -393,9 +370,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve data of repository with limit applied
      *
-     * @param int   $limit
-     * @param array $columns
-     *
+     * @param  int  $limit
+     * @param  array  $columns
      * @return mixed
      */
     public function limit($limit, $columns = ['*'])
@@ -409,13 +385,12 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve all data of repository, paginated
      *
-     * @param null|int $limit
-     * @param array    $columns
-     * @param string   $method
-     *
+     * @param  null|int  $limit
+     * @param  array  $columns
+     * @param  string  $method
      * @return mixed
      */
-    public function paginate($limit = null, $columns = ['*'], $method = "paginate")
+    public function paginate($limit = null, $columns = ['*'], $method = 'paginate')
     {
         $this->applyCriteria();
         $this->applyScope();
@@ -430,22 +405,19 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Retrieve all data of repository, simple paginated
      *
-     * @param null|int $limit
-     * @param array    $columns
-     *
+     * @param  null|int  $limit
+     * @param  array  $columns
      * @return mixed
      */
     public function simplePaginate($limit = null, $columns = ['*'])
     {
-        return $this->paginate($limit, $columns, "simplePaginate");
+        return $this->paginate($limit, $columns, 'simplePaginate');
     }
 
     /**
      * Find data by id
      *
-     * @param       $id
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function find($id, $columns = ['*'])
@@ -461,10 +433,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by field and value
      *
-     * @param       $field
-     * @param       $value
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findByField($field, $value = null, $columns = ['*'])
@@ -480,9 +449,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by multiple fields
      *
-     * @param array $where
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findWhere(array $where, $columns = ['*'])
@@ -501,10 +468,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by multiple values in one field
      *
-     * @param       $field
-     * @param array $values
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findWhereIn($field, array $values, $columns = ['*'])
@@ -520,10 +484,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by excluding multiple values in one field
      *
-     * @param       $field
-     * @param array $values
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findWhereNotIn($field, array $values, $columns = ['*'])
@@ -539,10 +500,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by between values in one field
      *
-     * @param       $field
-     * @param array $values
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findWhereBetween($field, array $values, $columns = ['*'])
@@ -558,10 +516,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Save a new entity in repository
      *
-     * @param array $attributes
      *
      * @return mixed
-     *
      */
     public function create(array $attributes)
     {
@@ -579,11 +535,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Update a entity in repository by id
      *
-     * @param array $attributes
-     * @param       $id
      *
      * @return mixed
-     *
      */
     public function update(array $attributes, $id)
     {
@@ -611,11 +564,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Update or Create an entity in repository
      *
-     * @param array $attributes
-     * @param array $values
      *
      * @return mixed
-     *
      */
     public function updateOrCreate(array $attributes, array $values = [])
     {
@@ -640,7 +590,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Delete a entity in repository by id
      *
-     * @param $id
      *
      * @return int
      */
@@ -669,7 +618,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Delete multiple entities by given criteria.
      *
-     * @param array $where
      *
      * @return int
      */
@@ -697,8 +645,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Check if entity has relation
      *
-     * @param string $relation
-     *
+     * @param  string  $relation
      * @return $this
      */
     public function has($relation)
@@ -711,8 +658,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Load relations
      *
-     * @param array|string $relations
-     *
+     * @param  array|string  $relations
      * @return $this
      */
     public function with($relations)
@@ -725,22 +671,21 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Add subselect queries to count the relations.
      *
-     * @param mixed $relations
-     *
+     * @param  mixed  $relations
      * @return $this
      */
     public function withCount($relations)
     {
         $this->model = $this->model->withCount($relations);
+
         return $this;
     }
 
     /**
      * Load relation with closure
      *
-     * @param string  $relation
-     * @param closure $closure
-     *
+     * @param  string  $relation
+     * @param  closure  $closure
      * @return $this
      */
     public function whereHas($relation, $closure)
@@ -753,7 +698,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Set hidden fields
      *
-     * @param array $fields
      *
      * @return $this
      */
@@ -767,9 +711,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Set the "orderBy" value of the query.
      *
-     * @param mixed  $column
-     * @param string $direction
-     *
+     * @param  mixed  $column
+     * @param  string  $direction
      * @return $this
      */
     public function orderBy($column, $direction = 'asc')
@@ -782,8 +725,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Set the "limit" value of the query.
      *
-     * @param int $limit
-     *
+     * @param  int  $limit
      * @return $this
      */
     public function take($limit)
@@ -797,7 +739,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Set visible fields
      *
-     * @param array $fields
      *
      * @return $this
      */
@@ -811,9 +752,9 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Push Criteria for filter the query
      *
-     * @param $criteria
      *
      * @return $this
+     *
      * @throws \Morisawa\Repository\Exceptions\RepositoryException
      */
     public function pushCriteria($criteria)
@@ -821,8 +762,8 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
         if (is_string($criteria)) {
             $criteria = new $criteria;
         }
-        if (!$criteria instanceof CriteriaInterface) {
-            throw new RepositoryException("Class " . get_class($criteria) . " must be an instance of Morisawa\\Repository\\Contracts\\CriteriaInterface");
+        if (! $criteria instanceof CriteriaInterface) {
+            throw new RepositoryException('Class '.get_class($criteria).' must be an instance of Morisawa\\Repository\\Contracts\\CriteriaInterface');
         }
         $this->criteria->push($criteria);
 
@@ -832,7 +773,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Pop Criteria
      *
-     * @param $criteria
      *
      * @return $this
      */
@@ -866,7 +806,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Find data by Criteria
      *
-     * @param CriteriaInterface $criteria
      *
      * @return mixed
      */
@@ -882,8 +821,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Skip Criteria
      *
-     * @param bool $status
-     *
+     * @param  bool  $status
      * @return $this
      */
     public function skipCriteria($status = true)
@@ -900,7 +838,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
      */
     public function resetCriteria()
     {
-        $this->criteria = new Collection();
+        $this->criteria = new Collection;
 
         return $this;
     }
@@ -959,7 +897,6 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Applies the given where conditions to the model.
      *
-     * @param array $where
      *
      * @return void
      */
@@ -967,75 +904,107 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     {
         foreach ($where as $field => $value) {
             if (is_array($value)) {
-                list($field, $condition, $val) = $value;
-                //smooth input
+                [$field, $condition, $val] = $value;
+                // smooth input
                 $condition = preg_replace('/\s\s+/', ' ', trim($condition));
 
-                //split to get operator, syntax: "DATE >", "DATE =", "DAY <"
+                // split to get operator, syntax: "DATE >", "DATE =", "DAY <"
                 $operator = explode(' ', $condition);
                 if (count($operator) > 1) {
                     $condition = $operator[0];
                     $operator = $operator[1];
-                } else $operator = null;
+                } else {
+                    $operator = null;
+                }
                 switch (strtoupper($condition)) {
                     case 'IN':
-                        if (!is_array($val)) throw new RepositoryException("Input {$val} mus be an array");
+                        if (! is_array($val)) {
+                            throw new RepositoryException("Input {$val} mus be an array");
+                        }
                         $this->model = $this->model->whereIn($field, $val);
                         break;
                     case 'NOTIN':
-                        if (!is_array($val)) throw new RepositoryException("Input {$val} mus be an array");
+                        if (! is_array($val)) {
+                            throw new RepositoryException("Input {$val} mus be an array");
+                        }
                         $this->model = $this->model->whereNotIn($field, $val);
                         break;
                     case 'DATE':
-                        if (!$operator) $operator = '=';
+                        if (! $operator) {
+                            $operator = '=';
+                        }
                         $this->model = $this->model->whereDate($field, $operator, $val);
                         break;
                     case 'DAY':
-                        if (!$operator) $operator = '=';
+                        if (! $operator) {
+                            $operator = '=';
+                        }
                         $this->model = $this->model->whereDay($field, $operator, $val);
                         break;
                     case 'MONTH':
-                        if (!$operator) $operator = '=';
+                        if (! $operator) {
+                            $operator = '=';
+                        }
                         $this->model = $this->model->whereMonth($field, $operator, $val);
                         break;
                     case 'YEAR':
-                        if (!$operator) $operator = '=';
+                        if (! $operator) {
+                            $operator = '=';
+                        }
                         $this->model = $this->model->whereYear($field, $operator, $val);
                         break;
                     case 'EXISTS':
-                        if (!($val instanceof Closure)) throw new RepositoryException("Input {$val} must be closure function");
+                        if (! ($val instanceof Closure)) {
+                            throw new RepositoryException("Input {$val} must be closure function");
+                        }
                         $this->model = $this->model->whereExists($val);
                         break;
                     case 'HAS':
-                        if (!($val instanceof Closure)) throw new RepositoryException("Input {$val} must be closure function");
+                        if (! ($val instanceof Closure)) {
+                            throw new RepositoryException("Input {$val} must be closure function");
+                        }
                         $this->model = $this->model->whereHas($field, $val);
                         break;
                     case 'HASMORPH':
-                        if (!($val instanceof Closure)) throw new RepositoryException("Input {$val} must be closure function");
+                        if (! ($val instanceof Closure)) {
+                            throw new RepositoryException("Input {$val} must be closure function");
+                        }
                         $this->model = $this->model->whereHasMorph($field, $val);
                         break;
                     case 'DOESNTHAVE':
-                        if (!($val instanceof Closure)) throw new RepositoryException("Input {$val} must be closure function");
+                        if (! ($val instanceof Closure)) {
+                            throw new RepositoryException("Input {$val} must be closure function");
+                        }
                         $this->model = $this->model->whereDoesntHave($field, $val);
                         break;
                     case 'DOESNTHAVEMORPH':
-                        if (!($val instanceof Closure)) throw new RepositoryException("Input {$val} must be closure function");
+                        if (! ($val instanceof Closure)) {
+                            throw new RepositoryException("Input {$val} must be closure function");
+                        }
                         $this->model = $this->model->whereDoesntHaveMorph($field, $val);
                         break;
                     case 'BETWEEN':
-                        if (!is_array($val)) throw new RepositoryException("Input {$val} mus be an array");
+                        if (! is_array($val)) {
+                            throw new RepositoryException("Input {$val} mus be an array");
+                        }
                         $this->model = $this->model->whereBetween($field, $val);
                         break;
                     case 'BETWEENCOLUMNS':
-                        if (!is_array($val)) throw new RepositoryException("Input {$val} mus be an array");
+                        if (! is_array($val)) {
+                            throw new RepositoryException("Input {$val} mus be an array");
+                        }
                         $this->model = $this->model->whereBetweenColumns($field, $val);
                         break;
                     case 'NOTBETWEEN':
-                        if (!is_array($val)) throw new RepositoryException("Input {$val} mus be an array");
+                        if (! is_array($val)) {
+                            throw new RepositoryException("Input {$val} mus be an array");
+                        }
                         $this->model = $this->model->whereNotBetween($field, $val);
                         break;
                     case 'NOTBETWEENCOLUMNS':
-                        if (!is_array($val)) throw new RepositoryException("Input {$val} mus be an array");
+                        if (! is_array($val)) {
+                            throw new RepositoryException("Input {$val} mus be an array");
+                        }
                         $this->model = $this->model->whereNotBetweenColumns($field, $val);
                         break;
                     case 'RAW':
@@ -1053,8 +1022,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Skip Presenter Wrapper
      *
-     * @param bool $status
-     *
+     * @param  bool  $status
      * @return $this
      */
     public function skipPresenter($status = true)
@@ -1067,8 +1035,7 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Wrapper result data
      *
-     * @param mixed $result
-     *
+     * @param  mixed  $result
      * @return mixed
      */
     public function parserResult($result)
@@ -1082,11 +1049,11 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
 
                     return $model;
                 });
-            } else if ($result instanceof Presentable) {
+            } elseif ($result instanceof Presentable) {
                 $result = $result->setPresenter($this->presenter);
             }
 
-            if (!$this->skipPresenter) {
+            if (! $this->skipPresenter) {
                 return $this->presenter->present($result);
             }
         }
@@ -1097,22 +1064,19 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
     /**
      * Trigger static method calls to the model
      *
-     * @param $method
-     * @param $arguments
      *
      * @return mixed
      */
     public static function __callStatic($method, $arguments)
     {
-        return call_user_func_array([new static(), $method], $arguments);
+        return call_user_func_array([new static, $method], $arguments);
     }
 
     /**
      * Trigger method calls to the model
      *
-     * @param string $method
-     * @param array  $arguments
-     *
+     * @param  string  $method
+     * @param  array  $arguments
      * @return mixed
      */
     public function __call($method, $arguments)

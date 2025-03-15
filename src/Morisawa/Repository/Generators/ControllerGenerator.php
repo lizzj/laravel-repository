@@ -6,12 +6,11 @@ use Illuminate\Support\Str;
 
 /**
  * Class ControllerGenerator
- * @package Morisawa\Repository\Generators
+ *
  * @author Morisawa Kana
  */
 class ControllerGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
@@ -88,9 +87,10 @@ class ControllerGenerator extends Generator
     public function getReplacements()
     {
         $request = str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $this->getName());
+
         return array_merge(parent::getReplacements(), [
             'controller' => $this->getControllerName(),
             'request' => $request,
@@ -107,5 +107,4 @@ class ControllerGenerator extends Generator
     {
         return Str::singular(lcfirst(ucwords($this->getClass())));
     }
-
 }

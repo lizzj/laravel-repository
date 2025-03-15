@@ -1,16 +1,16 @@
 <?php
+
 namespace Morisawa\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class EventServiceProvider
- * @package Morisawa\Repository\Providers
+ *
  * @author Morisawa Kana
  */
 class EventServiceProvider extends ServiceProvider
 {
-
     /**
      * The event handler mappings for the application.
      *
@@ -18,14 +18,14 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'Morisawa\Repository\Events\RepositoryEntityCreated' => [
-            'Morisawa\Repository\Listeners\CleanCacheRepository'
+            'Morisawa\Repository\Listeners\CleanCacheRepository',
         ],
         'Morisawa\Repository\Events\RepositoryEntityUpdated' => [
-            'Morisawa\Repository\Listeners\CleanCacheRepository'
+            'Morisawa\Repository\Listeners\CleanCacheRepository',
         ],
         'Morisawa\Repository\Events\RepositoryEntityDeleted' => [
-            'Morisawa\Repository\Listeners\CleanCacheRepository'
-        ]
+            'Morisawa\Repository\Listeners\CleanCacheRepository',
+        ],
     ];
 
     /**

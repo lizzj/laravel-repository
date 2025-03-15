@@ -1,15 +1,16 @@
 <?php
+
 namespace Morisawa\Repository\Generators;
 
 use Illuminate\Support\Str;
+
 /**
  * Class RepositoryEloquentGenerator
- * @package Morisawa\Repository\Generators
+ *
  * @author Morisawa Kana
  */
 class RepositoryEloquentGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
@@ -24,7 +25,7 @@ class RepositoryEloquentGenerator extends Generator
      */
     public function getRootNamespace()
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::getRootNamespace().parent::getConfigGeneratorClassPath($this->getPathConfigNode());
     }
 
     /**
@@ -44,7 +45,7 @@ class RepositoryEloquentGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'RepositoryEloquent.php';
+        return $this->getBasePath().'/'.parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true).'/'.$this->getName().'RepositoryEloquent.php';
     }
 
     /**
@@ -65,24 +66,23 @@ class RepositoryEloquentGenerator extends Generator
     public function getReplacements()
     {
 
-        $repository = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('interfaces') . '\\' . Str::ucfirst($this->name) . 'Repository;';
+        $repository = parent::getRootNamespace().parent::getConfigGeneratorClassPath('interfaces').'\\'.Str::ucfirst($this->name).'Repository;';
         $repository = str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $repository);
 
-        $presenter = parent::getRootNamespace() . parent::getConfigGeneratorClassPath('presenters') . '\\' . Str::ucfirst($this->name) . 'Presenter;';
+        $presenter = parent::getRootNamespace().parent::getConfigGeneratorClassPath('presenters').'\\'.Str::ucfirst($this->name).'Presenter;';
         $presenter = str_replace([
-            "\\",
-            '/'
+            '\\',
+            '/',
         ], '\\', $presenter);
 
-
         return array_merge(parent::getReplacements(), [
-            'fillable'      => '[]',
-            'presenter'=>$presenter,
-            'repository'    => $repository,
-            'model'         => isset($this->options['model']) ? $this->options['model'] : ''
+            'fillable' => '[]',
+            'presenter' => $presenter,
+            'repository' => $repository,
+            'model' => isset($this->options['model']) ? $this->options['model'] : '',
         ]);
     }
 }

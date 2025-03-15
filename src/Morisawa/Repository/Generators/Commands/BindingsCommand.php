@@ -4,20 +4,17 @@ namespace Morisawa\Repository\Generators\Commands;
 
 use File;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Morisawa\Repository\Generators\BindingsGenerator;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class BindingsCommand
- * @package Morisawa\Repository\Generators\Commands
+ *
  * @author Morisawa Kana
  */
 class BindingsCommand extends Command
 {
-
     /**
      * The name of command.
      *
@@ -43,6 +40,7 @@ class BindingsCommand extends Command
      * Execute the command.
      *
      * @return void
+     *
      * @see fire()
      */
     public function handle()
@@ -57,19 +55,20 @@ class BindingsCommand extends Command
      */
     public function fire()
     {
-        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
-        foreach (explode("\\", $case_name) as $item) {
-            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
+        foreach (explode('\\', $case_name) as $item) {
+            if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
                 $this->error($case_name.' Invalid Namespace!');
+
                 return false;
             }
         }
         try {
             $bindingGenerator = new BindingsGenerator([
-                'name' => $case_name
+                'name' => $case_name,
             ]);
             // generate repository service provider
-            if (!file_exists($bindingGenerator->getPath())) {
+            if (! file_exists($bindingGenerator->getPath())) {
                 $this->call('make:provider', [
                     'name' => $bindingGenerator->getConfigGeneratorClassPath($bindingGenerator->getPathConfigNode()),
                 ]);
@@ -77,17 +76,17 @@ class BindingsCommand extends Command
                 $provider = File::get($bindingGenerator->getPath());
                 File::put($bindingGenerator->getPath(), vsprintf(str_replace('//', '%s', $provider), [
                     '//',
-                    $bindingGenerator->bindPlaceholder
+                    $bindingGenerator->bindPlaceholder,
                 ]));
             }
             $bindingGenerator->run();
             $this->info($this->type.' created successfully.');
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type.' already exists!');
+
             return false;
         }
     }
-
 
     /**
      * The array of command arguments.
@@ -101,9 +100,8 @@ class BindingsCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of model for which the controller is being generated.',
-                null
+                null,
             ],
         ];
     }
-
 }

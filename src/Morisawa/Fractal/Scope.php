@@ -1,13 +1,12 @@
 <?php
 
-
 namespace Morisawa\Fractal;
 
 use InvalidArgumentException;
 use Morisawa\Fractal\Resource\Collection;
 use Morisawa\Fractal\Resource\Item;
-use Morisawa\Fractal\Resource\Primitive;
 use Morisawa\Fractal\Resource\NullResource;
+use Morisawa\Fractal\Resource\Primitive;
 use Morisawa\Fractal\Resource\ResourceInterface;
 use Morisawa\Fractal\Serializer\Serializer;
 
@@ -141,7 +140,7 @@ class Scope implements \JsonSerializable
      *
      * @internal
      *
-     * @param string[] $parentScopes Value to set.
+     * @param  string[]  $parentScopes  Value to set.
      */
     public function setParentScopes(array $parentScopes): self
     {
@@ -155,7 +154,7 @@ class Scope implements \JsonSerializable
      */
     public function toArray(): ?array
     {
-        list($rawData, $rawIncludedData) = $this->executeResourceTransformers();
+        [$rawData, $rawIncludedData] = $this->executeResourceTransformers();
 
         $serializer = $this->manager->getSerializer();
 
@@ -164,8 +163,8 @@ class Scope implements \JsonSerializable
         // If the serializer wants the includes to be side-loaded then we'll
         // serialize the included data and merge it with the data.
         if ($serializer->sideloadIncludes()) {
-            //Filter out any relation that wasn't requested
-            $rawIncludedData = array_map(array($this, 'filterFieldsets'), $rawIncludedData);
+            // Filter out any relation that wasn't requested
+            $rawIncludedData = array_map([$this, 'filterFieldsets'], $rawIncludedData);
 
             $includedData = $serializer->includedData($this->resource, $rawIncludedData);
 
@@ -185,7 +184,7 @@ class Scope implements \JsonSerializable
             $data = $data + $includedData;
         }
 
-        if (!empty($this->availableIncludes)) {
+        if (! empty($this->availableIncludes)) {
             $data = $serializer->injectAvailableIncludeData($data, $this->availableIncludes);
         }
 
@@ -206,9 +205,10 @@ class Scope implements \JsonSerializable
 
         // in case of returning NullResource we should return null and not to go with array_merge
         if (is_null($data)) {
-            if (!empty($meta)) {
+            if (! empty($meta)) {
                 return $meta;
             }
+
             return null;
         }
 
@@ -249,7 +249,7 @@ class Scope implements \JsonSerializable
         $transformer = $this->resource->getTransformer();
         $data = $this->resource->getData();
 
-        if (null === $transformer) {
+        if ($transformer === null) {
             $transformedData = $data;
         } elseif (is_callable($transformer)) {
             $transformedData = call_user_func($transformer, $data);
@@ -274,10 +274,10 @@ class Scope implements \JsonSerializable
         $transformedData = $includedData = [];
 
         if ($this->resource instanceof Item) {
-            list($transformedData, $includedData[]) = $this->fireTransformer($transformer, $data);
+            [$transformedData, $includedData[]] = $this->fireTransformer($transformer, $data);
         } elseif ($this->resource instanceof Collection) {
             foreach ($data as $value) {
-                list($transformedData[], $includedData[]) = $this->fireTransformer($transformer, $value);
+                [$transformedData[], $includedData[]] = $this->fireTransformer($transformer, $value);
             }
         } elseif ($this->resource instanceof NullResource) {
             $transformedData = null;
@@ -297,14 +297,14 @@ class Scope implements \JsonSerializable
      *
      * @internal
      *
-     * @param mixed $data
+     * @param  mixed  $data
      */
     protected function serializeResource(Serializer $serializer, $data): ?array
     {
         $resourceKey = $this->resource->getResourceKey();
 
         if ($this->resource instanceof Collection) {
-            if (!empty($resourceKey)) {
+            if (! empty($resourceKey)) {
                 return $serializer->collection($resourceKey, $data);
             }
 
@@ -313,7 +313,7 @@ class Scope implements \JsonSerializable
 
         if ($this->resource instanceof Item) {
             // this is where it breaks now.
-            if (!empty($resourceKey)) {
+            if (! empty($resourceKey)) {
                 return $serializer->item($resourceKey, $data);
             }
 
@@ -328,8 +328,8 @@ class Scope implements \JsonSerializable
      *
      * @internal
      *
-     * @param TransformerAbstract|callable $transformer
-     * @param mixed                        $data
+     * @param  TransformerAbstract|callable  $transformer
+     * @param  mixed  $data
      */
     protected function fireTransformer($transformer, $data): array
     {
@@ -347,7 +347,7 @@ class Scope implements \JsonSerializable
             $transformedData = $this->manager->getSerializer()->mergeIncludes($transformedData, $includedData);
         }
 
-        //Stick only with requested fields
+        // Stick only with requested fields
         $transformedData = $this->filterFieldsets($transformedData);
 
         return [$transformedData, $includedData];
@@ -358,8 +358,8 @@ class Scope implements \JsonSerializable
      *
      * @internal
      *
-     * @param \Morisawa\Fractal\TransformerAbstract $transformer
-     * @param mixed                               $data
+     * @param  \Morisawa\Fractal\TransformerAbstract  $transformer
+     * @param  mixed  $data
      */
     protected function fireIncludedTransformers($transformer, $data): array
     {
@@ -373,7 +373,7 @@ class Scope implements \JsonSerializable
      *
      * @internal
      *
-     * @param TransformerAbstract|callable $transformer
+     * @param  TransformerAbstract|callable  $transformer
      */
     protected function transformerHasIncludes($transformer): bool
     {
@@ -403,18 +403,19 @@ class Scope implements \JsonSerializable
      */
     protected function filterFieldsets(array $data): array
     {
-        if (!$this->hasFilterFieldset()) {
+        if (! $this->hasFilterFieldset()) {
             return $data;
         }
         $serializer = $this->manager->getSerializer();
         $requestedFieldset = iterator_to_array($this->getFilterFieldset());
-        //Build the array of requested fieldsets with the mandatory serializer fields
+        // Build the array of requested fieldsets with the mandatory serializer fields
         $filterFieldset = array_flip(
             array_merge(
                 $serializer->getMandatoryFields(),
                 $requestedFieldset
             )
         );
+
         return array_intersect_key($data, $filterFieldset);
     }
 

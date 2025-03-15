@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal;
 
 use Morisawa\Fractal\Resource\ResourceInterface;

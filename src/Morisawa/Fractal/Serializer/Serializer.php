@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Fractal\Serializer;
 
 use Morisawa\Fractal\Pagination\CursorInterface;

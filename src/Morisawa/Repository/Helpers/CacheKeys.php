@@ -4,16 +4,15 @@ namespace Morisawa\Repository\Helpers;
 
 /**
  * Class CacheKeys
- * @package Morisawa\Repository\Helpers
+ *
  * @author Morisawa Kana
  */
 class CacheKeys
 {
-
     /**
      * @var string
      */
-    protected static $storeFile = "repository-cache-keys.json";
+    protected static $storeFile = 'repository-cache-keys.json';
 
     /**
      * @var array
@@ -21,9 +20,6 @@ class CacheKeys
     protected static $keys = null;
 
     /**
-     * @param $group
-     * @param $key
-     *
      * @return void
      */
     public static function putKey($group, $key)
@@ -32,7 +28,7 @@ class CacheKeys
 
         self::$keys[$group] = self::getKeys($group);
 
-        if (!in_array($key, self::$keys[$group])) {
+        if (! in_array($key, self::$keys[$group])) {
             self::$keys[$group][] = $key;
         }
 
@@ -44,13 +40,13 @@ class CacheKeys
      */
     public static function loadKeys()
     {
-        if (!is_null(self::$keys) && is_array(self::$keys)) {
+        if (! is_null(self::$keys) && is_array(self::$keys)) {
             return self::$keys;
         }
 
         $file = self::getFileKeys();
 
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             self::storeKeys();
         }
 
@@ -65,7 +61,7 @@ class CacheKeys
      */
     public static function getFileKeys()
     {
-        $file = storage_path("framework/cache/" . self::$storeFile);
+        $file = storage_path('framework/cache/'.self::$storeFile);
 
         return $file;
     }
@@ -83,8 +79,6 @@ class CacheKeys
     }
 
     /**
-     * @param $group
-     *
      * @return array|mixed
      */
     public static function getKeys($group)
@@ -96,9 +90,6 @@ class CacheKeys
     }
 
     /**
-     * @param $method
-     * @param $parameters
-     *
      * @return mixed
      */
     public static function __callStatic($method, $parameters)
@@ -107,14 +98,11 @@ class CacheKeys
 
         return call_user_func_array([
             $instance,
-            $method
+            $method,
         ], $parameters);
     }
 
     /**
-     * @param $method
-     * @param $parameters
-     *
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -123,7 +111,7 @@ class CacheKeys
 
         return call_user_func_array([
             $instance,
-            $method
+            $method,
         ], $parameters);
     }
 }

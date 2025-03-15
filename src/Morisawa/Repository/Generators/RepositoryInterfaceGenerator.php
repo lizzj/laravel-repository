@@ -1,14 +1,14 @@
 <?php
 
 namespace Morisawa\Repository\Generators;
+
 /**
  * Class RepositoryInterfaceGenerator
- * @package Morisawa\Repository\Generators
+ *
  * @author Morisawa Kana
  */
 class RepositoryInterfaceGenerator extends Generator
 {
-
     /**
      * Get stub name.
      *
@@ -23,7 +23,7 @@ class RepositoryInterfaceGenerator extends Generator
      */
     public function getRootNamespace()
     {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+        return parent::getRootNamespace().parent::getConfigGeneratorClassPath($this->getPathConfigNode());
     }
 
     /**
@@ -43,7 +43,7 @@ class RepositoryInterfaceGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '/' . $this->getName() . 'Repository.php';
+        return $this->getBasePath().'/'.parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true).'/'.$this->getName().'Repository.php';
     }
 
     /**
@@ -64,8 +64,7 @@ class RepositoryInterfaceGenerator extends Generator
     public function getReplacements()
     {
         return array_merge(parent::getReplacements(), [
-            'fillable' => '[]'
+            'fillable' => '[]',
         ]);
     }
-
 }

@@ -1,11 +1,12 @@
 <?php
+
 namespace Morisawa\Repository\Contracts;
 
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 
 /**
  * Interface CacheableInterface
- * @package Morisawa\Repository\Contracts
+ *
  * @author Morisawa Kana
  */
 interface CacheableInterface
@@ -13,7 +14,6 @@ interface CacheableInterface
     /**
      * Set Cache Repository
      *
-     * @param CacheRepository $repository
      *
      * @return $this
      */
@@ -29,8 +29,6 @@ interface CacheableInterface
     /**
      * Get Cache key for the method
      *
-     * @param $method
-     * @param $args
      *
      * @return string
      */
@@ -43,12 +41,10 @@ interface CacheableInterface
      */
     public function getCacheTime();
 
-
     /**
      * Skip Cache
      *
-     * @param bool $status
-     *
+     * @param  bool  $status
      * @return $this
      */
     public function skipCache($status = true);

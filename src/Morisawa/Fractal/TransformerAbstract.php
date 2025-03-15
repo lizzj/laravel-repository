@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal;
 
 use Morisawa\Fractal\Resource\Collection;
@@ -79,8 +77,7 @@ abstract class TransformerAbstract
      *
      * @internal
      *
-     * @param mixed $data
-     *
+     * @param  mixed  $data
      * @return array|false
      */
     public function processIncludedResources(Scope $scope, $data)
@@ -104,7 +101,7 @@ abstract class TransformerAbstract
     /**
      * Include a resource only if it is available on the method.
      *
-     * @param mixed  $data
+     * @param  mixed  $data
      */
     private function includeResourceIfAvailable(
         Scope $scope,
@@ -130,11 +127,10 @@ abstract class TransformerAbstract
      *
      * @internal
      *
-     * @param mixed  $data
+     * @param  mixed  $data
+     * @return \Morisawa\Fractal\Resource\ResourceInterface|false
      *
      * @throws \Exception
-     *
-     * @return \Morisawa\Fractal\Resource\ResourceInterface|false
      */
     protected function callIncludeMethod(Scope $scope, string $includeName, $data)
     {
@@ -209,8 +205,7 @@ abstract class TransformerAbstract
     /**
      * Create a new primitive resource object.
      *
-     * @param mixed                        $data
-     * @param callable|null                $transformer
+     * @param  mixed  $data
      */
     protected function primitive($data, ?callable $transformer = null, ?string $resourceKey = null): Primitive
     {
@@ -220,8 +215,8 @@ abstract class TransformerAbstract
     /**
      * Create a new item resource object.
      *
-     * @param mixed                        $data
-     * @param TransformerAbstract|callable $transformer
+     * @param  mixed  $data
+     * @param  TransformerAbstract|callable  $transformer
      */
     protected function item($data, $transformer, ?string $resourceKey = null): Item
     {
@@ -231,8 +226,8 @@ abstract class TransformerAbstract
     /**
      * Create a new collection resource object.
      *
-     * @param mixed                        $data
-     * @param TransformerAbstract|callable $transformer
+     * @param  mixed  $data
+     * @param  TransformerAbstract|callable  $transformer
      */
     protected function collection($data, $transformer, ?string $resourceKey = null): Collection
     {
@@ -244,6 +239,6 @@ abstract class TransformerAbstract
      */
     protected function null(): NullResource
     {
-        return new NullResource();
+        return new NullResource;
     }
 }

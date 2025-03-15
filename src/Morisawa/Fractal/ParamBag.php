@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal;
 
 /**
@@ -52,7 +50,7 @@ class ParamBag implements \ArrayAccess, \IteratorAggregate
     /**
      * Disallow changing the value of params in the data bag via property access.
      *
-     * @param mixed  $value
+     * @param  mixed  $value
      *
      * @throws \LogicException
      */
@@ -65,8 +63,6 @@ class ParamBag implements \ArrayAccess, \IteratorAggregate
      * Disallow unsetting params in the data bag via property access.
      *
      * @throws \LogicException
-     *
-     * @return void
      */
     public function __unset(string $key): void
     {
@@ -76,7 +72,7 @@ class ParamBag implements \ArrayAccess, \IteratorAggregate
     /**
      * Check if a param exists in the bag via an isset() and array access.
      *
-     * @param string $key
+     * @param  string  $key
      */
     public function offsetExists($key): bool
     {
@@ -86,8 +82,7 @@ class ParamBag implements \ArrayAccess, \IteratorAggregate
     /**
      * Get parameter values out of the bag via array access.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return mixed
      */
     #[\ReturnTypeWillChange]
@@ -99,8 +94,8 @@ class ParamBag implements \ArrayAccess, \IteratorAggregate
     /**
      * Disallow changing the value of params in the data bag via array access.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param  string  $key
+     * @param  mixed  $value
      *
      * @throws \LogicException
      */
@@ -112,7 +107,7 @@ class ParamBag implements \ArrayAccess, \IteratorAggregate
     /**
      * Disallow unsetting params in the data bag via array access.
      *
-     * @param string $key
+     * @param  string  $key
      *
      * @throws \LogicException
      */

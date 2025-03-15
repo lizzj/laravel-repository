@@ -6,11 +6,10 @@ use Illuminate\Console\Command;
 use Morisawa\Repository\Generators\CriteriaGenerator;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class CriteriaCommand
- * @package Morisawa\Repository\Generators\Commands
+ *
  * @author Morisawa Kana
  */
 class CriteriaCommand extends Command
@@ -40,6 +39,7 @@ class CriteriaCommand extends Command
      * Execute the command.
      *
      * @return void
+     *
      * @see fire()
      */
     public function handle()
@@ -54,20 +54,22 @@ class CriteriaCommand extends Command
      */
     public function fire()
     {
-         $case_name = \Illuminate\Support\Str::title($this->argument("name"));
-        foreach (explode("\\", $case_name) as $item) {
-            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
-                 $this->error($case_name.' Invalid Namespace!');
-                 return false;
+        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
+        foreach (explode('\\', $case_name) as $item) {
+            if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
+                $this->error($case_name.' Invalid Namespace!');
+
+                return false;
             }
         }
         try {
             (new CriteriaGenerator([
                 'name' => $case_name,
             ]))->run();
-            $this->info("Criteria created successfully.");
+            $this->info('Criteria created successfully.');
         } catch (FileAlreadyExistsException $ex) {
             $this->error($this->type.' already exists!');
+
             return false;
         }
     }
@@ -84,7 +86,7 @@ class CriteriaCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of class being generated.',
-                null
+                null,
             ],
         ];
     }

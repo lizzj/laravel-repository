@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Events;
 
 use Illuminate\Database\Eloquent\Model;
@@ -6,7 +7,7 @@ use Morisawa\Repository\Contracts\RepositoryInterface;
 
 /**
  * Class RepositoryEventBase
- * @package Morisawa\Repository\Events
+ *
  * @author Morisawa Kana
  */
 abstract class RepositoryEventBase
@@ -26,11 +27,7 @@ abstract class RepositoryEventBase
      */
     protected $action;
 
-    /**
-     * @param RepositoryInterface $repository
-     * @param Model               $model
-     */
-    public function __construct(RepositoryInterface $repository, Model $model = null)
+    public function __construct(RepositoryInterface $repository, ?Model $model = null)
     {
         $this->repository = $repository;
         $this->model = $model;

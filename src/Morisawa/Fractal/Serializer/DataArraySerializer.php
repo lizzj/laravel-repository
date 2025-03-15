@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Serializer;
 
 class DataArraySerializer extends ArraySerializer

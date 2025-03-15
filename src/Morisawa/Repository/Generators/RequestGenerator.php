@@ -2,12 +2,9 @@
 
 namespace Morisawa\Repository\Generators;
 
-
-use Illuminate\Support\Str;
-
 /**
  * Class RequestGenerator
- * @package Morisawa\Repository\Generators
+ *
  * @author Morisawa Kana
  */
 class RequestGenerator extends Generator
@@ -68,8 +65,7 @@ class RequestGenerator extends Generator
     {
         return array_merge(parent::getReplacements(), [
             'appname' => $this->getAppNamespace(),
-            'messages'=>str_replace(["\\", '/'], '.', $this->getName()),
+            'messages' => str_replace(['\\', '/'], '.', $this->getName()),
         ]);
     }
-
 }

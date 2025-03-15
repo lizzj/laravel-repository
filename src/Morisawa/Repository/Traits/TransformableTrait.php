@@ -4,7 +4,7 @@ namespace Morisawa\Repository\Traits;
 
 /**
  * Class TransformableTrait
- * @package Morisawa\Repository\Traits
+ *
  * @author Morisawa Kana
  */
 trait TransformableTrait

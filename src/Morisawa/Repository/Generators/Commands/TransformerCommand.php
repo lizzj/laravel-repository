@@ -3,20 +3,17 @@
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Morisawa\Repository\Generators\TransformerGenerator;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class TransformerCommand
- * @package Morisawa\Repository\Generators\Commands
+ *
  * @author Morisawa Kana
  */
 class TransformerCommand extends Command
 {
-
     /**
      * The name of command.
      *
@@ -42,6 +39,7 @@ class TransformerCommand extends Command
      * Execute the command.
      *
      * @return void
+     *
      * @see fire()
      */
     public function handle()
@@ -56,10 +54,11 @@ class TransformerCommand extends Command
      */
     public function fire()
     {
-        $case_name = \Illuminate\Support\Str::title($this->argument("name"));
-        foreach (explode("\\", $case_name) as $item) {
-            if (blank($item) || !preg_match('/^[A-Z]/', $item[0])) {
+        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
+        foreach (explode('\\', $case_name) as $item) {
+            if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
                 $this->error($case_name.' Invalid Namespace!');
+
                 return false;
             }
         }
@@ -67,13 +66,13 @@ class TransformerCommand extends Command
             (new TransformerGenerator([
                 'name' => $case_name,
             ]))->run();
-            $this->info("Transformer created successfully.");
+            $this->info('Transformer created successfully.');
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type.' already exists!');
+
             return false;
         }
     }
-
 
     /**
      * The array of command arguments.
@@ -87,7 +86,7 @@ class TransformerCommand extends Command
                 'name',
                 InputArgument::REQUIRED,
                 'The name of model for which the transformer is being generated.',
-                null
+                null,
             ],
         ];
     }

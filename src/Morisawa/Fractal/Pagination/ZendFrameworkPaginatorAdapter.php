@@ -1,11 +1,8 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Pagination;
 
 use Zend\Paginator\Paginator;
-
 
 class ZendFrameworkPaginatorAdapter implements PaginatorInterface
 {

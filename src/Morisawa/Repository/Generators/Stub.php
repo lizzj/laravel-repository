@@ -4,7 +4,7 @@ namespace Morisawa\Repository\Generators;
 
 /**
  * Class Stub
- * @package Morisawa\Repository\Generators
+ *
  * @author Morisawa Kana
  */
 class Stub
@@ -15,12 +15,14 @@ class Stub
      * @var null|string
      */
     protected static $basePath = null;
+
     /**
      * The stub path.
      *
      * @var string
      */
     protected $path;
+
     /**
      * The replacements array.
      *
@@ -31,8 +33,7 @@ class Stub
     /**
      * The contructor.
      *
-     * @param string $path
-     * @param array  $replaces
+     * @param  string  $path
      */
     public function __construct($path, array $replaces = [])
     {
@@ -43,9 +44,7 @@ class Stub
     /**
      * Create new self instance.
      *
-     * @param  string $path
-     * @param  array  $replaces
-     *
+     * @param  string  $path
      * @return self
      */
     public static function create($path, array $replaces = [])
@@ -56,8 +55,7 @@ class Stub
     /**
      * Set base path.
      *
-     * @param  string $path
-     *
+     * @param  string  $path
      * @return void
      */
     public static function setBasePath($path)
@@ -68,7 +66,6 @@ class Stub
     /**
      * Set replacements array.
      *
-     * @param  array $replaces
      *
      * @return $this
      */
@@ -118,7 +115,7 @@ class Stub
     {
         $contents = file_get_contents($this->getPath());
         foreach ($this->replaces as $search => $replace) {
-            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
+            $contents = str_replace('$'.strtoupper($search).'$', $replace, $contents);
         }
 
         return $contents;
@@ -131,14 +128,13 @@ class Stub
      */
     public function getPath()
     {
-        return static::$basePath . $this->path;
+        return static::$basePath.$this->path;
     }
 
     /**
      * Set stub path.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return self
      */
     public function setPath($path)

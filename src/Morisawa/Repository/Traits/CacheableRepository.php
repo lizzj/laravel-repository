@@ -2,20 +2,19 @@
 
 namespace Morisawa\Repository\Traits;
 
+use Exception;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Morisawa\Repository\Contracts\CriteriaInterface;
 use Morisawa\Repository\Helpers\CacheKeys;
 use ReflectionObject;
-use Exception;
 
 /**
  * Class CacheableRepository
- * @package Morisawa\Repository\Traits
+ *
  * @author Morisawa Kana
  */
 trait CacheableRepository
 {
-
     /**
      * @var CacheRepository
      */
@@ -24,7 +23,6 @@ trait CacheableRepository
     /**
      * Set Cache Repository
      *
-     * @param CacheRepository $repository
      *
      * @return $this
      */
@@ -52,8 +50,7 @@ trait CacheableRepository
     /**
      * Skip Cache
      *
-     * @param bool $status
-     *
+     * @param  bool  $status
      * @return $this
      */
     public function skipCache($status = true)
@@ -80,15 +77,13 @@ trait CacheableRepository
     }
 
     /**
-     * @param $method
-     *
      * @return bool
      */
     protected function allowedCache($method)
     {
         $cacheEnabled = config('repository.cache.enabled', true);
 
-        if (!$cacheEnabled) {
+        if (! $cacheEnabled) {
             return false;
         }
 
@@ -100,7 +95,7 @@ trait CacheableRepository
         }
 
         if (is_array($cacheExcept)) {
-            return !in_array($method, $cacheExcept);
+            return ! in_array($method, $cacheExcept);
         }
 
         if (is_null($cacheOnly) && is_null($cacheExcept)) {
@@ -113,8 +108,6 @@ trait CacheableRepository
     /**
      * Get Cache key for the method
      *
-     * @param $method
-     * @param $args
      *
      * @return string
      */
@@ -124,7 +117,7 @@ trait CacheableRepository
         $request = app('Illuminate\Http\Request');
         $args = serialize($args);
         $criteria = $this->serializeCriteria();
-        $key = sprintf('%s@%s-%s', get_called_class(), $method, md5($args . $criteria . $request->fullUrl()));
+        $key = sprintf('%s@%s-%s', get_called_class(), $method, md5($args.$criteria.$request->fullUrl()));
 
         CacheKeys::putKey(get_called_class(), $key);
 
@@ -151,7 +144,7 @@ trait CacheableRepository
     /**
      * Serialize single criterion with customized serialization of Closures.
      *
-     * @param  \Morisawa\Repository\Contracts\CriteriaInterface $criterion
+     * @param  \Morisawa\Repository\Contracts\CriteriaInterface  $criterion
      * @return \Morisawa\Repository\Contracts\CriteriaInterface|array
      *
      * @throws \Exception
@@ -179,7 +172,7 @@ trait CacheableRepository
 
     /**
      * Get cache time
-     * 
+     *
      * Return minutes: version < 5.8
      * Return seconds: version >= 5.8
      *
@@ -192,7 +185,7 @@ trait CacheableRepository
         /**
          * https://laravel.com/docs/5.8/upgrade#cache-ttl-in-seconds
          */
-        if ($this->versionCompare($this->app->version(), "5.7.*", ">")) {
+        if ($this->versionCompare($this->app->version(), '5.7.*', '>')) {
             return $cacheMinutes * 60;
         }
 
@@ -202,13 +195,12 @@ trait CacheableRepository
     /**
      * Retrieve all data of repository
      *
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function all($columns = ['*'])
     {
-        if (!$this->allowedCache('all') || $this->isSkippedCache()) {
+        if (! $this->allowedCache('all') || $this->isSkippedCache()) {
             return parent::all($columns);
         }
 
@@ -220,21 +212,21 @@ trait CacheableRepository
 
         $this->resetModel();
         $this->resetScope();
+
         return $value;
     }
 
     /**
      * Retrieve all data of repository, paginated
      *
-     * @param null  $limit
-     * @param array $columns
-     * @param string $method
-     *
+     * @param  null  $limit
+     * @param  array  $columns
+     * @param  string  $method
      * @return mixed
      */
     public function paginate($limit = null, $columns = ['*'], $method = 'paginate')
     {
-        if (!$this->allowedCache('paginate') || $this->isSkippedCache()) {
+        if (! $this->allowedCache('paginate') || $this->isSkippedCache()) {
             return parent::paginate($limit, $columns, $method);
         }
 
@@ -247,20 +239,19 @@ trait CacheableRepository
 
         $this->resetModel();
         $this->resetScope();
+
         return $value;
     }
 
     /**
      * Find data by id
      *
-     * @param       $id
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function find($id, $columns = ['*'])
     {
-        if (!$this->allowedCache('find') || $this->isSkippedCache()) {
+        if (! $this->allowedCache('find') || $this->isSkippedCache()) {
             return parent::find($id, $columns);
         }
 
@@ -272,21 +263,19 @@ trait CacheableRepository
 
         $this->resetModel();
         $this->resetScope();
+
         return $value;
     }
 
     /**
      * Find data by field and value
      *
-     * @param       $field
-     * @param       $value
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findByField($field, $value = null, $columns = ['*'])
     {
-        if (!$this->allowedCache('findByField') || $this->isSkippedCache()) {
+        if (! $this->allowedCache('findByField') || $this->isSkippedCache()) {
             return parent::findByField($field, $value, $columns);
         }
 
@@ -298,20 +287,19 @@ trait CacheableRepository
 
         $this->resetModel();
         $this->resetScope();
+
         return $value;
     }
 
     /**
      * Find data by multiple fields
      *
-     * @param array $where
-     * @param array $columns
-     *
+     * @param  array  $columns
      * @return mixed
      */
     public function findWhere(array $where, $columns = ['*'])
     {
-        if (!$this->allowedCache('findWhere') || $this->isSkippedCache()) {
+        if (! $this->allowedCache('findWhere') || $this->isSkippedCache()) {
             return parent::findWhere($where, $columns);
         }
 
@@ -323,19 +311,19 @@ trait CacheableRepository
 
         $this->resetModel();
         $this->resetScope();
+
         return $value;
     }
 
     /**
      * Find data by Criteria
      *
-     * @param CriteriaInterface $criteria
      *
      * @return mixed
      */
     public function getByCriteria(CriteriaInterface $criteria)
     {
-        if (!$this->allowedCache('getByCriteria') || $this->isSkippedCache()) {
+        if (! $this->allowedCache('getByCriteria') || $this->isSkippedCache()) {
             return parent::getByCriteria($criteria);
         }
 
@@ -347,6 +335,7 @@ trait CacheableRepository
 
         $this->resetModel();
         $this->resetScope();
+
         return $value;
     }
 }

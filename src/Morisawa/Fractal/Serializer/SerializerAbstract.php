@@ -1,12 +1,6 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Serializer;
-
-use Morisawa\Fractal\Pagination\CursorInterface;
-use Morisawa\Fractal\Pagination\PaginatorInterface;
-use Morisawa\Fractal\Resource\ResourceInterface;
 
 abstract class SerializerAbstract implements Serializer
 {

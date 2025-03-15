@@ -1,4 +1,5 @@
 <?php
+
 namespace Morisawa\Repository\Presenter;
 
 use Exception;
@@ -15,7 +16,7 @@ use Morisawa\Repository\Contracts\PresenterInterface;
 
 /**
  * Class FractalPresenter
- * @package Morisawa\Repository\Presenter
+ *
  * @author Morisawa Kana
  */
 abstract class FractalPresenter implements PresenterInterface
@@ -45,11 +46,11 @@ abstract class FractalPresenter implements PresenterInterface
      */
     public function __construct()
     {
-        if (!class_exists('Morisawa\Fractal\Manager')) {
+        if (! class_exists('Morisawa\Fractal\Manager')) {
             throw new Exception(trans('repository::packages.Morisawa_fractal_required'));
         }
 
-        $this->fractal = new Manager();
+        $this->fractal = new Manager;
         $this->parseIncludes();
         $this->setupSerializer();
     }
@@ -62,7 +63,7 @@ abstract class FractalPresenter implements PresenterInterface
         $serializer = $this->serializer();
 
         if ($serializer instanceof SerializerAbstract) {
-            $this->fractal->setSerializer(new $serializer());
+            $this->fractal->setSerializer(new $serializer);
         }
 
         return $this;
@@ -93,7 +94,7 @@ abstract class FractalPresenter implements PresenterInterface
     {
         $serializer = config('repository.fractal.serializer', 'Morisawa\\Fractal\\Serializer\\DataArraySerializer');
 
-        return new $serializer();
+        return new $serializer;
     }
 
     /**
@@ -106,14 +107,14 @@ abstract class FractalPresenter implements PresenterInterface
     /**
      * Prepare data to present
      *
-     * @param $data
      *
      * @return mixed
+     *
      * @throws Exception
      */
     public function present($data)
     {
-        if (!class_exists('Morisawa\Fractal\Manager')) {
+        if (! class_exists('Morisawa\Fractal\Manager')) {
             throw new Exception(trans('repository::packages.Morisawa_fractal_required'));
         }
 
@@ -129,8 +130,6 @@ abstract class FractalPresenter implements PresenterInterface
     }
 
     /**
-     * @param $data
-     *
      * @return Item
      */
     protected function transformItem($data)
@@ -139,8 +138,6 @@ abstract class FractalPresenter implements PresenterInterface
     }
 
     /**
-     * @param $data
-     *
      * @return \Morisawa\Fractal\Resource\Collection
      */
     protected function transformCollection($data)
@@ -149,8 +146,7 @@ abstract class FractalPresenter implements PresenterInterface
     }
 
     /**
-     * @param AbstractPaginator|LengthAwarePaginator|Paginator $paginator
-     *
+     * @param  AbstractPaginator|LengthAwarePaginator|Paginator  $paginator
      * @return \Morisawa\Fractal\Resource\Collection
      */
     protected function transformPaginator($paginator)

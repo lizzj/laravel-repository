@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Morisawa\Fractal\Pagination;
 
 use Pagerfanta\Pagerfanta;

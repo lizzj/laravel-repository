@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Morisawa\Fractal\Resource;
 
 interface ResourceInterface
@@ -29,14 +27,14 @@ interface ResourceInterface
     /**
      * Set the data.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      */
     public function setData($data): self;
 
     /**
      * Set the transformer.
      *
-     * @param callable|\Morisawa\Fractal\TransformerAbstract $transformer
+     * @param  callable|\Morisawa\Fractal\TransformerAbstract  $transformer
      */
     public function setTransformer($transformer): self;
 

@@ -8,7 +8,8 @@ class DoctrinePaginatorAdapter implements PaginatorInterface
 {
     /**
      * The paginator instance.
-     * @var  Paginator
+     *
+     * @var Paginator
      */
     private $paginator;
 
@@ -21,9 +22,6 @@ class DoctrinePaginatorAdapter implements PaginatorInterface
 
     /**
      * Create a new DoctrinePaginatorAdapter.
-     * @param Paginator $paginator
-     * @param callable $routeGenerator
-     *
      */
     public function __construct(Paginator $paginator, callable $routeGenerator)
     {

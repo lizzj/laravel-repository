@@ -1,16 +1,16 @@
 <?php
+
 namespace Morisawa\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class RepositoryServiceProvider
- * @package Morisawa\Repository\Providers
+ *
  * @author Morisawa Kana
  */
 class RepositoryServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -18,20 +18,17 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
-
     /**
-     *
      * @return void
      */
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../../resources/config/repository.php' => config_path('repository.php')
+            __DIR__.'/../../../resources/config/repository.php' => config_path('repository.php'),
         ]);
-        $this->mergeConfigFrom(__DIR__ . '/../../../resources/config/repository.php', 'repository');
+        $this->mergeConfigFrom(__DIR__.'/../../../resources/config/repository.php', 'repository');
 
     }
-
 
     /**
      * Register the service provider.
@@ -49,7 +46,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Morisawa\Repository\Generators\Commands\RequestCommand');
         $this->app->register('Morisawa\Repository\Providers\EventServiceProvider');
     }
-
 
     /**
      * Get the services provided by the provider.

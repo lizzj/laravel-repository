@@ -1,11 +1,13 @@
-<?php namespace Morisawa\Repository\Transformer;
+<?php
+
+namespace Morisawa\Repository\Transformer;
 
 use Morisawa\Fractal\TransformerAbstract;
 use Morisawa\Repository\Contracts\Transformable;
 
 /**
  * Class ModelTransformer
- * @package Morisawa\Repository\Transformer
+ *
  * @author Morisawa Kana
  */
 class ModelTransformer extends TransformerAbstract

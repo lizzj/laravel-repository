@@ -7,20 +7,17 @@ use Morisawa\Repository\Contracts\PresenterInterface;
 
 /**
  * Class PresentableTrait
- * @package Morisawa\Repository\Traits
+ *
  * @author Morisawa Kana
  */
 trait PresentableTrait
 {
-
     /**
      * @var PresenterInterface
      */
     protected $presenter = null;
 
     /**
-     * @param \Morisawa\Repository\Contracts\PresenterInterface $presenter
-     *
      * @return $this
      */
     public function setPresenter(PresenterInterface $presenter)
@@ -31,9 +28,7 @@ trait PresentableTrait
     }
 
     /**
-     * @param      $key
-     * @param null $default
-     *
+     * @param  null  $default
      * @return mixed|null
      */
     public function present($key, $default = null)

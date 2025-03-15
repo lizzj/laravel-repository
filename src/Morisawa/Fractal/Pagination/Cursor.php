@@ -39,9 +39,9 @@ class Cursor implements CursorInterface
     /**
      * Create a new Cursor instance.
      *
-     * @param mixed $current
-     * @param mixed $prev
-     * @param mixed $next
+     * @param  mixed  $current
+     * @param  mixed  $prev
+     * @param  mixed  $next
      */
     public function __construct($current = null, $prev = null, $next = null, ?int $count = null)
     {
@@ -63,7 +63,7 @@ class Cursor implements CursorInterface
     /**
      * Set the current cursor value.
      *
-     * @param mixed $current
+     * @param  mixed  $current
      */
     public function setCurrent($current): self
     {
@@ -84,7 +84,7 @@ class Cursor implements CursorInterface
     /**
      * Set the prev cursor value.
      *
-     * @param mixed $prev
+     * @param  mixed  $prev
      */
     public function setPrev($prev): self
     {
@@ -105,7 +105,7 @@ class Cursor implements CursorInterface
     /**
      * Set the next cursor value.
      *
-     * @param mixed $next
+     * @param  mixed  $next
      */
     public function setNext($next): self
     {

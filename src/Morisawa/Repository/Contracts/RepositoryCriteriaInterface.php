@@ -1,21 +1,19 @@
 <?php
+
 namespace Morisawa\Repository\Contracts;
 
 use Illuminate\Support\Collection;
 
-
 /**
  * Interface RepositoryCriteriaInterface
- * @package Morisawa\Repository\Contracts
+ *
  * @author Morisawa Kana
  */
 interface RepositoryCriteriaInterface
 {
-
     /**
      * Push Criteria for filter the query
      *
-     * @param $criteria
      *
      * @return $this
      */
@@ -24,7 +22,6 @@ interface RepositoryCriteriaInterface
     /**
      * Pop Criteria
      *
-     * @param $criteria
      *
      * @return $this
      */
@@ -40,7 +37,6 @@ interface RepositoryCriteriaInterface
     /**
      * Find data by Criteria
      *
-     * @param CriteriaInterface $criteria
      *
      * @return mixed
      */
@@ -49,8 +45,7 @@ interface RepositoryCriteriaInterface
     /**
      * Skip Criteria
      *
-     * @param bool $status
-     *
+     * @param  bool  $status
      * @return $this
      */
     public function skipCriteria($status = true);
