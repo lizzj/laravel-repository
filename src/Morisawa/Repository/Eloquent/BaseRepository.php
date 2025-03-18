@@ -752,19 +752,14 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
     /**
      * Push Criteria for filter the query
      *
-     *
      * @return $this
-     *
-     * @throws \Morisawa\Repository\Exceptions\RepositoryException
      */
     public function pushCriteria($criteria)
     {
         if (is_string($criteria)) {
             $criteria = new $criteria;
         }
-        if (! $criteria instanceof CriteriaInterface) {
-            throw new RepositoryException('Class '.get_class($criteria).' must be an instance of Morisawa\\Repository\\Contracts\\CriteriaInterface');
-        }
+
         $this->criteria->push($criteria);
 
         return $this;

@@ -12,16 +12,52 @@ use Morisawa\Repository\Contracts\RepositoryInterface;
  */
 class $CLASS$Criteria implements CriteriaInterface
 {
+    protected array $searchFields;
+    protected ?string $searchKeyword;
+    protected array $extraConditions;
+    protected array $timeRange;
+    protected string $timeField;
+
     /**
-     * Apply criteria in query repository
-     *
-     * @param string              $model
-     * @param RepositoryInterface $repository
-     *
-     * @return mixed
+     * @param  array  $searchFields  Array of fields to be used in the search query (can be empty)
+     * @param  string|null  $searchKeyword  Search keyword (can be null)
+     * @param  array  $extraConditions  Additional query conditions (can be empty)
+     * @param  array  $timeRange  Time range array in the format ['start_time', 'end_time'] (can be empty)
+     * @param  string  $timeField  Time filter field, defaults to 'created_at'
      */
+
+    public function __construct(
+        array $searchFields = [],
+        ?string $searchKeyword = null,
+        array $extraConditions = [],
+        array $timeRange = [],
+        string $timeField = 'created_at' // Default 'created_at'
+    )
+    {
+        $this->searchFields = $searchFields;
+        $this->searchKeyword = $searchKeyword;
+        $this->extraConditions = $extraConditions;
+        $this->timeRange = $timeRange;
+        $this->timeField = $timeField;
+    }
+
     public function apply($model, RepositoryInterface $repository)
     {
+        // Process keyword search
+        if (!empty($this->searchFields) && !empty($this->searchKeyword)) {
+            $concatFields = implode(", ' ', ", array_map(static fn($field) => "COALESCE($field, '')", $this->searchFields));
+            $model = $model->whereRaw("concat({$concatFields}) LIKE ?", ["%{$this->searchKeyword}%"]);
+        }
+        // Process additional query conditions
+        if (!empty($this->extraConditions)) {
+            foreach ($this->extraConditions as $field => $value) {
+                $model = $model->where($field, $value);
+            }
+        }
+        // Process time range filtering
+        if (!empty($this->timeRange)) {
+            $model = $model->whereBetween($this->timeField, $this->timeRange);
+        }
         return $model;
     }
 }
