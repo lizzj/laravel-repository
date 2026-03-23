@@ -17,7 +17,7 @@ use Morisawa\Repository\Contracts\RepositoryInterface;
 class RequestCriteria implements CriteriaInterface
 {
     /**
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     protected $request;
 

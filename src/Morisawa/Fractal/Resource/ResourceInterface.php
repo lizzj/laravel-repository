@@ -2,6 +2,8 @@
 
 namespace Morisawa\Fractal\Resource;
 
+use Morisawa\Fractal\TransformerAbstract;
+
 interface ResourceInterface
 {
     /**
@@ -20,7 +22,7 @@ interface ResourceInterface
     /**
      * Get the transformer.
      *
-     * @return callable|\Morisawa\Fractal\TransformerAbstract|null
+     * @return callable|TransformerAbstract|null
      */
     public function getTransformer();
 
@@ -34,7 +36,7 @@ interface ResourceInterface
     /**
      * Set the transformer.
      *
-     * @param  callable|\Morisawa\Fractal\TransformerAbstract  $transformer
+     * @param  callable|TransformerAbstract  $transformer
      */
     public function setTransformer($transformer): self;
 

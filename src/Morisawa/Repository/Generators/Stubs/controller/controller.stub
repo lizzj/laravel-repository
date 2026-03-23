@@ -9,7 +9,7 @@ use $APPNAME$Http\Requests\$REQUEST$\UpdateRequest;
 
 /**
  * Class $CONTROLLER$Controller.
- *
+ * @note 
  * @package $NAMESPACE$
  */
 #[AllowDynamicProperties] class $CONTROLLER$Controller extends Controller
@@ -17,7 +17,7 @@ use $APPNAME$Http\Requests\$REQUEST$\UpdateRequest;
 
     public function __construct()
     {
-
+        parent::__construct();
     }
 
     public function index()

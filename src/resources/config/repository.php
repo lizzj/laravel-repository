@@ -1,5 +1,7 @@
 <?php
 
+use Morisawa\Fractal\Serializer\DataArraySerializer;
+
 /*
 |--------------------------------------------------------------------------
 | Morisawa Repository Config
@@ -35,7 +37,7 @@ return [
         'params' => [
             'include' => 'include',
         ],
-        'serializer' => Morisawa\Fractal\Serializer\DataArraySerializer::class,
+        'serializer' => DataArraySerializer::class,
     ],
 
     /*
@@ -242,6 +244,12 @@ return [
             'validators' => 'Http\Requests',
             'provider' => 'RepositoryServiceProvider',
             'criteria' => 'Repositories\Criteria',
+            'jobs' => [
+                'business' => 'Jobs\Business',
+                'guardian' => 'Jobs\Guardian',
+                'routine' => 'Jobs\Routine',
+                'support' => 'Jobs\Support',
+            ],
         ],
     ],
 ];

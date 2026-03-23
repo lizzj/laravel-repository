@@ -26,7 +26,17 @@ class $CLASS$Transformer extends TransformerAbstract
 
             /* place your other model properties here */
             /* tip:  created_at  getTimestamp() */
-            'created_at' => $model->created_at
+            'created_at' => $model->created_at->getTimestamp(),
         ];
+    }
+
+    private function pickRelation(string $relation, $model): ?array
+    {
+        if (!$model) {
+            return null;
+        }
+        return match ($relation) {
+            default => null,
+        };
     }
 }

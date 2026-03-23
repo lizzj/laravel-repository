@@ -128,7 +128,7 @@ abstract class TransformerAbstract
      * @internal
      *
      * @param  mixed  $data
-     * @return \Morisawa\Fractal\Resource\ResourceInterface|false
+     * @return ResourceInterface|false
      *
      * @throws \Exception
      */

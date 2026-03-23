@@ -144,10 +144,10 @@ trait CacheableRepository
     /**
      * Serialize single criterion with customized serialization of Closures.
      *
-     * @param  \Morisawa\Repository\Contracts\CriteriaInterface  $criterion
-     * @return \Morisawa\Repository\Contracts\CriteriaInterface|array
+     * @param  CriteriaInterface  $criterion
+     * @return CriteriaInterface|array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function serializeCriterion($criterion)
     {

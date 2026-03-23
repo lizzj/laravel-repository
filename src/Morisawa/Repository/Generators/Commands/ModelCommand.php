@@ -1,39 +1,45 @@
 <?php
 
+/*
+ * @Author: もりさわかな
+ * @LastEditTime: 2026-03-23 18:12:34
+ */
+
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
-use Morisawa\Repository\Generators\TransformerGenerator;
+use Morisawa\Repository\Generators\ModelGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class TransformerCommand
+ * Class ModelCommand
  *
  * @author Morisawa Kana
  */
-class TransformerCommand extends Command
+class ModelCommand extends Command
 {
     /**
      * The name of command.
      *
      * @var string
      */
-    protected $name = 'mino:transformer';
+    protected $name = 'mino:model';
 
     /**
      * The description of command.
      *
      * @var string
      */
-    protected $description = 'Create a new transformer.';
+    protected $description = 'Create Model.';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Transformer';
+    protected $type = 'Model';
 
     /**
      * Execute the command.
@@ -54,7 +60,10 @@ class TransformerCommand extends Command
      */
     public function fire()
     {
-        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
+        // Normalize the case name
+        $case_name = Str::title($this->argument('name'));
+
+        // Validate the namespace
         foreach (explode('\\', $case_name) as $item) {
             if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
                 $this->error($case_name.' Invalid Namespace!');
@@ -62,13 +71,15 @@ class TransformerCommand extends Command
                 return false;
             }
         }
+
         try {
-            (new TransformerGenerator([
+            // Define choices
+            (new ModelGenerator([
                 'name' => $case_name,
             ]))->run();
-            $this->info('Transformer created successfully.');
+            $this->info('Model created successfully.');
         } catch (FileAlreadyExistsException $e) {
-            $this->error($this->type.' already exists!');
+            $this->error('File already exists!');
 
             return false;
         }
@@ -85,7 +96,7 @@ class TransformerCommand extends Command
             [
                 'name',
                 InputArgument::REQUIRED,
-                'The name of model for which the transformer is being generated.',
+                'The name of class being generated.',
                 null,
             ],
         ];

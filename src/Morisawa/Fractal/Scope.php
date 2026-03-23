@@ -358,7 +358,7 @@ class Scope implements \JsonSerializable
      *
      * @internal
      *
-     * @param  \Morisawa\Fractal\TransformerAbstract  $transformer
+     * @param  TransformerAbstract  $transformer
      * @param  mixed  $data
      */
     protected function fireIncludedTransformers($transformer, $data): array

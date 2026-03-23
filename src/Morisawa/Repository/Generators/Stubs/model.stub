@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class $CLASS$.
- *
+ * @note 
  * @package $NAMESPACE$
  */
 class $CLASS$ extends Model
@@ -23,7 +23,7 @@ class $CLASS$ extends Model
      *
      * @var bool
      */
-    public const UPDATED_AT = null;
+    public const bool UPDATED_AT = false;
 
     /**
      * The format for date attributes.

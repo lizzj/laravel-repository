@@ -3,6 +3,11 @@ $NAMESPACE$
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class $CLASS$Request.
+ * @note 
+ * @package $NAMESPACE$
+ */
 class $CLASS$Request extends FormRequest
 {
     /**

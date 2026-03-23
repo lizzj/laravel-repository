@@ -12,6 +12,7 @@ use Morisawa\Fractal\Pagination\IlluminatePaginatorAdapter;
 use Morisawa\Fractal\Resource\Collection;
 use Morisawa\Fractal\Resource\Item;
 use Morisawa\Fractal\Serializer\SerializerAbstract;
+use Morisawa\Fractal\TransformerAbstract;
 use Morisawa\Repository\Contracts\PresenterInterface;
 
 /**
@@ -32,12 +33,12 @@ abstract class FractalPresenter implements PresenterInterface
     protected $resourceKeyCollection = null;
 
     /**
-     * @var \Morisawa\Fractal\Manager
+     * @var Manager
      */
     protected $fractal = null;
 
     /**
-     * @var \Morisawa\Fractal\Resource\Collection
+     * @var Collection
      */
     protected $resource = null;
 
@@ -100,7 +101,7 @@ abstract class FractalPresenter implements PresenterInterface
     /**
      * Transformer
      *
-     * @return \Morisawa\Fractal\TransformerAbstract
+     * @return TransformerAbstract
      */
     abstract public function getTransformer();
 
@@ -138,7 +139,7 @@ abstract class FractalPresenter implements PresenterInterface
     }
 
     /**
-     * @return \Morisawa\Fractal\Resource\Collection
+     * @return Collection
      */
     protected function transformCollection($data)
     {
@@ -147,7 +148,7 @@ abstract class FractalPresenter implements PresenterInterface
 
     /**
      * @param  AbstractPaginator|LengthAwarePaginator|Paginator  $paginator
-     * @return \Morisawa\Fractal\Resource\Collection
+     * @return Collection
      */
     protected function transformPaginator($paginator)
     {

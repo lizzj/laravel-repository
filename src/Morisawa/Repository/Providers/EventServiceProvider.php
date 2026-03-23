@@ -3,6 +3,7 @@
 namespace Morisawa\Repository\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Morisawa\Repository\Listeners\CleanCacheRepository;
 
 /**
  * Class EventServiceProvider
@@ -16,16 +17,13 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
+    // 定义常量
+    private const CLEAN_CACHE = CleanCacheRepository::class;
+
     protected $listen = [
-        'Morisawa\Repository\Events\RepositoryEntityCreated' => [
-            'Morisawa\Repository\Listeners\CleanCacheRepository',
-        ],
-        'Morisawa\Repository\Events\RepositoryEntityUpdated' => [
-            'Morisawa\Repository\Listeners\CleanCacheRepository',
-        ],
-        'Morisawa\Repository\Events\RepositoryEntityDeleted' => [
-            'Morisawa\Repository\Listeners\CleanCacheRepository',
-        ],
+        'Morisawa\Repository\Events\RepositoryEntityCreated' => [self::CLEAN_CACHE],
+        'Morisawa\Repository\Events\RepositoryEntityUpdated' => [self::CLEAN_CACHE],
+        'Morisawa\Repository\Events\RepositoryEntityDeleted' => [self::CLEAN_CACHE],
     ];
 
     /**

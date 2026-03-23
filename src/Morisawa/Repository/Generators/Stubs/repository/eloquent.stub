@@ -9,7 +9,7 @@ use $MODEL$;
 
 /**
  * Class $CLASS$RepositoryEloquent.
- *
+ * @note 
  * @package $NAMESPACE$
  */
 class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Repository

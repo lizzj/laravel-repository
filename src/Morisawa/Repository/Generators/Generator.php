@@ -2,6 +2,7 @@
 
 namespace Morisawa\Repository\Generators;
 
+use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
@@ -15,7 +16,7 @@ abstract class Generator
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
@@ -45,7 +46,7 @@ abstract class Generator
     /**
      * Get the filesystem instance.
      *
-     * @return \Illuminate\Filesystem\Filesystem
+     * @return Filesystem
      */
     public function getFilesystem()
     {
@@ -140,7 +141,7 @@ abstract class Generator
      */
     public function getAppNamespace()
     {
-        return \Illuminate\Container\Container::getInstance()->getNamespace();
+        return Container::getInstance()->getNamespace();
     }
 
     /**
@@ -181,38 +182,15 @@ abstract class Generator
      */
     public function getConfigGeneratorClassPath($class, $directoryPath = false)
     {
-        switch ($class) {
-            case $class === 'models':
-                $path = config('repository.generator.paths.models', 'Entities');
-                break;
-            case $class === 'repositories':
-                $path = config('repository.generator.paths.repositories', 'Repositories');
-                break;
-            case $class === 'interfaces':
-                $path = config('repository.generator.paths.interfaces', 'Repositories');
-                break;
-            case $class === 'presenters':
-                $path = config('repository.generator.paths.presenters', 'Presenters');
-                break;
-            case $class === 'transformers':
-                $path = config('repository.generator.paths.transformers', 'Transformers');
-                break;
-            case $class === 'controllers':
-                $path = config('repository.generator.paths.controllers', 'Http\Controllers');
-                break;
-            case $class === 'validators':
-                $path = config('repository.generator.paths.validators', 'Http\Requests');
-                break;
-            case $class === 'provider':
-                $path = config('repository.generator.paths.provider', 'RepositoryServiceProvider');
-                break;
-            case $class === 'criteria':
-                $path = config('repository.generator.paths.criteria', 'Criteria');
-                break;
-            default:
-                $path = '';
+        $parts = explode('.', $class);
+        if (count($parts) === 1) {
+            $_class = $parts[0];
+            $subpath = null;
+        } else {
+            $_class = $parts[0];
+            $subpath = $parts[1];
         }
-
+        $path = config(rtrim('repository.generator.paths.'.$_class.'.'.$subpath, '.'), 'Unknown');
         if ($directoryPath) {
             $path = str_replace('\\', '/', $path);
         } else {

@@ -3,6 +3,7 @@
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Morisawa\Repository\Generators\CriteriaGenerator;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -54,7 +55,7 @@ class CriteriaCommand extends Command
      */
     public function fire()
     {
-        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
+        $case_name = Str::title($this->argument('name'));
         foreach (explode('\\', $case_name) as $item) {
             if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
                 $this->error($case_name.' Invalid Namespace!');

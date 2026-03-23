@@ -2,6 +2,8 @@
 
 namespace Morisawa\Repository\Contracts;
 
+use Illuminate\Support\Collection;
+
 /**
  * Interface RepositoryInterface
  *
@@ -14,7 +16,7 @@ interface RepositoryInterface
      *
      * @param  string  $column
      * @param  string|null  $key
-     * @return \Illuminate\Support\Collection|array
+     * @return Collection|array
      */
     public function lists($column, $key = null);
 
@@ -24,7 +26,7 @@ interface RepositoryInterface
      *
      * @param  string  $column
      * @param  string|null  $key
-     * @return \Illuminate\Support\Collection|array
+     * @return Collection|array
      */
     public function pluck($column, $key = null);
 

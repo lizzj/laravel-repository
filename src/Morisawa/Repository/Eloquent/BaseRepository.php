@@ -69,7 +69,7 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
     protected $skipPresenter = false;
 
     /**
-     * @var \Closure
+     * @var Closure
      */
     protected $scopeQuery = null;
 
@@ -190,7 +190,7 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      *
      * @return $this
      */
-    public function scopeQuery(\Closure $scope)
+    public function scopeQuery(Closure $scope)
     {
         $this->scopeQuery = $scope;
 
@@ -202,7 +202,7 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      *
      * @param  string  $column
      * @param  string|null  $key
-     * @return \Illuminate\Support\Collection|array
+     * @return Collection|array
      */
     public function lists($column, $key = null)
     {
@@ -217,7 +217,7 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      *
      * @param  string  $column
      * @param  string|null  $key
-     * @return \Illuminate\Support\Collection|array
+     * @return Collection|array
      */
     public function pluck($column, $key = null)
     {
@@ -685,7 +685,7 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      * Load relation with closure
      *
      * @param  string  $relation
-     * @param  closure  $closure
+     * @param  Closure  $closure
      * @return $this
      */
     public function whereHas($relation, $closure)

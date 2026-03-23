@@ -3,6 +3,7 @@
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Morisawa\Repository\Generators\RequestGenerator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -55,7 +56,7 @@ class RequestCommand extends Command
     public function fire()
     {
         // Normalize the case name
-        $case_name = \Illuminate\Support\Str::title($this->argument('name'));
+        $case_name = Str::title($this->argument('name'));
 
         // Validate the namespace
         foreach (explode('\\', $case_name) as $item) {
