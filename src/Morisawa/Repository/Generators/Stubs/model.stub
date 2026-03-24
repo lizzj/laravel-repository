@@ -21,9 +21,9 @@ class $CLASS$ extends Model
     /**
      * Indicates if the model should be timestamped.
      *
-     * @var bool
+     * @var null
      */
-    public const bool UPDATED_AT = false;
+    public const null UPDATED_AT = null;
 
     /**
      * The format for date attributes.
