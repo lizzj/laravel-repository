@@ -2,7 +2,7 @@
 
 /*
  * @Author: もりさわかな
- * @LastEditTime: 2026-03-23 17:08:58
+ * @LastEditTime: 2026-03-25 10:43:26
  */
 
 namespace Morisawa\Repository\Providers;
@@ -48,6 +48,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Morisawa\Repository\Generators\Commands\RequestCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\ModelCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\JobCommand');
+        $this->commands('Morisawa\Repository\Generators\Commands\BindingsCommand');
         $this->app->register('Morisawa\Repository\Providers\EventServiceProvider');
     }
 
