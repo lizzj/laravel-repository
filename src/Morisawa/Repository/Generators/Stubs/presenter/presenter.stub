@@ -27,6 +27,6 @@ class $CLASS$Presenter extends FractalPresenter
      */
     public function getTransformer()
     {
-        return new $CLASS$Transformer();
+        return new $CLASS$Transformer($this->mode);
     }
 }
