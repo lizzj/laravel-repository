@@ -12,6 +12,13 @@ use $MODEL$;
  */
 class $CLASS$Transformer extends TransformerAbstract
 {
+    protected mixed $mode;
+
+    public function __construct($mode)
+    {
+        $this->mode = $mode;
+    }
+
     /**
      * Transform the $CLASS$ entity.
      *
@@ -21,12 +28,36 @@ class $CLASS$Transformer extends TransformerAbstract
      */
     public function transform($CLASS$ $model)
     {
-        return [
-            'id'         => (int) $model->id,
+        $base = [
+            'id' => (int) $model->id,
+        ];
+        
+        $specific = match ($this->mode) {
+            'client' => $this->transformClient($model),
+            default => $this->transformInternal($model)
+        };
 
+        $footer = [
             /* place your other model properties here */
             /* tip:  created_at  getTimestamp() */
-            'created_at' => $model->created_at->getTimestamp(),
+            'created_at' => (int) $model->created_at->getTimestamp(),
+        ];
+
+        // 这样顺序就是：ID -> 动态字段 -> 时间
+        return array_merge($base, $specific, $footer);
+    }
+
+    private function transformClient($model): array
+    {
+        return [
+            
+        ];
+    }
+
+    private function transformInternal($model): array
+    {
+        return [
+            
         ];
     }
 

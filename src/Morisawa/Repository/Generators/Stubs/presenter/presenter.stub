@@ -12,6 +12,14 @@ use Morisawa\Repository\Presenter\FractalPresenter;
  */
 class $CLASS$Presenter extends FractalPresenter
 {
+    protected mixed $mode;
+    
+    public function __construct($mode = 'internal')
+    {
+        parent::__construct();
+        $this->mode = $mode;
+    }
+    
     /**
      * Transformer
      *
