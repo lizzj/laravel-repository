@@ -41,6 +41,8 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      */
     protected $model;
 
+    protected string $mode = 'internal';
+
     /**
      * @var array
      */
@@ -111,6 +113,13 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      * @return string
      */
     abstract public function model();
+
+    public function setMode($mode): static
+    {
+        $this->mode = $mode;
+
+        return $this->setPresenter($this->presenter());
+    }
 
     /**
      * Specify Presenter class name

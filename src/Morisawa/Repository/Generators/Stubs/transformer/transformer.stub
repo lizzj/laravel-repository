@@ -14,7 +14,7 @@ class $CLASS$Transformer extends TransformerAbstract
 {
     protected mixed $mode;
 
-    public function __construct($mode)
+    public function __construct($mode = 'internal')
     {
         $this->mode = $mode;
     }
@@ -38,12 +38,9 @@ class $CLASS$Transformer extends TransformerAbstract
         };
 
         $footer = [
-            /* place your other model properties here */
-            /* tip:  created_at  getTimestamp() */
             'created_at' => (int) $model->created_at->getTimestamp(),
         ];
-
-        // 这样顺序就是：ID -> 动态字段 -> 时间
+        
         return array_merge($base, $specific, $footer);
     }
 

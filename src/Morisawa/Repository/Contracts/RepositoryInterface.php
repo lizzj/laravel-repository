@@ -225,6 +225,14 @@ interface RepositoryInterface
     public function getFieldsSearchable();
 
     /**
+     * Set Mode
+     *
+     *
+     * @return mixed
+     */
+    public function setMode($mode);
+
+    /**
      * Set Presenter
      *
      *

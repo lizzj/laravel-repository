@@ -14,8 +14,6 @@ use $MODEL$;
  */
 class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Repository
 {
-    protected string $mode = 'internal';
-
     /**
      * Specify Model class name
      *
@@ -24,12 +22,6 @@ class $CLASS$RepositoryEloquent extends BaseRepository implements $CLASS$Reposit
     public function model()
     {
         return $CLASS$::class;
-    }
-
-    public function setMode($mode): static
-    {
-        $this->mode = $mode; //这块设置了默认--要重新调用
-        return $this->setPresenter($this->presenter());
     }
 
     public function presenter()
