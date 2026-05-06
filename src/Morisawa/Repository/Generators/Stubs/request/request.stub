@@ -5,7 +5,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class $CLASS$Request.
- * @note 
+ * @note
  * @package $NAMESPACE$
  */
 class $CLASS$Request extends FormRequest
@@ -17,6 +17,8 @@ class $CLASS$Request extends FormRequest
      * @var bool
      */
     protected $stopOnFirstFailure = true;
+
+    public string $langPath = "_Validation.$MESSAGES$";
 
     /**
      * Get the validation rules that apply to the request.
@@ -32,6 +34,6 @@ class $CLASS$Request extends FormRequest
     */
     public function messages()
     {
-         return is_array($translation = trans('_Validation.$MESSAGES$')) ? $translation : ["*" => trans('_Validation.Failed')];
+         return is_array($translation = trans($this->langPath)) ? $translation : ["*" => trans('_Validation.Failed')];
     }
 }

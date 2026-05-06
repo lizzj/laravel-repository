@@ -2,7 +2,7 @@
 
 /*
  * @Author: もりさわかな
- * @LastEditTime: 2026-03-25 10:43:26
+ * @LastEditTime: 2026-05-06 11:14:28
  */
 
 namespace Morisawa\Repository\Providers;
@@ -45,6 +45,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Morisawa\Repository\Generators\Commands\RepositoryCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\ControllerCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\CriteriaCommand');
+        $this->commands('Morisawa\Repository\Generators\Commands\LangCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\RequestCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\ModelCommand');
         $this->commands('Morisawa\Repository\Generators\Commands\JobCommand');
