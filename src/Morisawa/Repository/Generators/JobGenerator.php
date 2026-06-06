@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * @Author: もりさわかな
+ * @LastEditTime: 2026-06-06 17:28:29
+ */
+
 namespace Morisawa\Repository\Generators;
 
 /**
@@ -24,7 +29,12 @@ class JobGenerator extends Generator
      */
     public function getRootNamespace()
     {
-        return parent::getRootNamespace().parent::getConfigGeneratorClassPath($this->getPathConfigNode().'.'.$this->getOption('subpath'));
+        if ($this->getOption('subpath')) {
+            return parent::getRootNamespace().parent::getConfigGeneratorClassPath($this->getPathConfigNode().'.'.$this->getOption('subpath'));
+        } else {
+            return parent::getRootNamespace().ucfirst($this->getPathConfigNode());
+        }
+
     }
 
     /**
@@ -45,7 +55,11 @@ class JobGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath().'/'.parent::getConfigGeneratorClassPath($this->getPathConfigNode().'.'.$this->getOption('subpath'), true).'/'.$this->getName().'.php';
+        if ($this->getOption('subpath')) {
+            return $this->getBasePath().'/'.parent::getConfigGeneratorClassPath($this->getPathConfigNode().'.'.$this->getOption('subpath'), true).'/'.$this->getName().'.php';
+        } else {
+            return $this->getBasePath().'/'.ucfirst($this->getPathConfigNode()).'/'.$this->getName().'.php';
+        }
     }
 
     /**

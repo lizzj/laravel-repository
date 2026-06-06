@@ -8,6 +8,7 @@ use Morisawa\Repository\Generators\ControllerGenerator;
 use Morisawa\Repository\Generators\FileAlreadyExistsException;
 use Morisawa\Repository\Generators\RequestGenerator;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class ControllerCommand
@@ -46,6 +47,7 @@ class ControllerCommand extends Command
      */
     public function handle()
     {
+
         $this->laravel->call([$this, 'fire'], func_get_args());
     }
 
@@ -58,7 +60,6 @@ class ControllerCommand extends Command
     {
         // Normalize the case name
         $case_name = Str::title($this->argument('name'));
-
         // Validate the namespace
         foreach (explode('\\', $case_name) as $item) {
             if (blank($item) || ! preg_match('/^[A-Z]/', $item[0])) {
@@ -67,25 +68,19 @@ class ControllerCommand extends Command
                 return false;
             }
         }
-
         try {
-            // Define choices
             $choices = [
                 0 => 'Nothing',
                 1 => 'CreateRequest And UpdateRequest',
                 2 => 'CreateRequest',
                 3 => 'UpdateRequest',
             ];
-
-            // Get user choice
-            $request_option = $this->choice(
-                'What would you like to do?',
-                array_values($choices), // Use array_values to get the list of options
-                0
-            );
-
-            // Map choice to action
-            $actionKey = array_search($request_option, $choices);
+            if ($this->hasOption('request') && $this->option('request')) {
+                $actionKey = $this->option('request');
+            } else {
+                $request_option = $this->choice('What would you like to do?', array_values($choices), 0);
+                $actionKey = array_search($request_option, $choices);
+            }
 
             $generateRequests = function ($case_name, $requests) {
                 foreach ($requests as $request) {
@@ -94,19 +89,19 @@ class ControllerCommand extends Command
             };
 
             $action = match ($actionKey) {
-                1 => function () use ($case_name, $generateRequests) {
+                1, 'a', 'all' => function () use ($case_name, $generateRequests) {
                     $generateRequests($case_name, ['Create', 'Update']);
                     $this->info('CreateRequest and UpdateRequest created successfully.');
                 },
-                2 => function () use ($case_name, $generateRequests) {
+                2, 'c', 'create' => function () use ($case_name, $generateRequests) {
                     $generateRequests($case_name, ['Create']);
                     $this->info('CreateRequest created successfully.');
                 },
-                3 => function () use ($case_name, $generateRequests) {
+                3, 'u', 'update' => function () use ($case_name, $generateRequests) {
                     $generateRequests($case_name, ['Update']);
                     $this->info('UpdateRequest created successfully.');
                 },
-                0 => function () {
+                0, 'n', 'none' => function () {
                     $this->info('No request created.');
                 },
                 default => function () {
@@ -144,6 +139,13 @@ class ControllerCommand extends Command
                 'The name of class being generated.',
                 null,
             ],
+        ];
+    }
+
+    public function getOptions()
+    {
+        return [
+            ['request', ['req', 'r'], InputOption::VALUE_OPTIONAL, 'Create request.'],
         ];
     }
 }

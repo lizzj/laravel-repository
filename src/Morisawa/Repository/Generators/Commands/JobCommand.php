@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * @Author: もりさわかな
+ * @LastEditTime: 2026-06-06 17:28:08
+ */
+
 namespace Morisawa\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
@@ -48,17 +53,14 @@ class JobCommand extends Command
         $name = Str::title($this->argument('name'));
         // 判定子路径名称
         $sub = null;
-        // 使用 hasOption 检查，只有定义的选项才会被处理
-        if ($this->hasOption('business') && $this->option('business')) {
-            $sub = 'business';
-        } elseif ($this->hasOption('guardian') && $this->option('guardian')) {
-            $sub = 'guardian';
-        } elseif ($this->hasOption('routine') && $this->option('routine')) {
-            $sub = 'routine';
-        } elseif ($this->hasOption('support') && $this->option('support')) {
-            $sub = 'support';
-        }
-
+        $_path = $this->option('path');
+        $sub = match ($_path) {
+            'business', 'b' => 'business',
+            'guardian', 'g' => 'guardian',
+            'routine', 'r' => 'routine',
+            'support', 's' => 'support',
+            default => $_path,
+        };
         try {
             (new JobGenerator([
                 'name' => $name,
@@ -83,10 +85,7 @@ class JobCommand extends Command
     protected function getOptions()
     {
         return [
-            ['business', 'b', InputOption::VALUE_NONE, 'Create job in Business namespace.'],
-            ['guardian', 'g', InputOption::VALUE_NONE, 'Create job in Guardian namespace.'],
-            ['routine', 'r', InputOption::VALUE_NONE, 'Create job in Routine namespace.'],
-            ['support', 's', InputOption::VALUE_NONE, 'Create job in Support namespace.'],
+            ['path', ['p'], InputOption::VALUE_NONE, 'Create job.'],
         ];
     }
 }

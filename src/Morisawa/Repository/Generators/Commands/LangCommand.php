@@ -45,34 +45,35 @@ class LangCommand extends Command
     public function fire()
     {
         $masterFile = lang_path('en/_Validation.php');
-        if (!File::exists($masterFile) || File::size($masterFile) === 0) {
+        if (! File::exists($masterFile) || File::size($masterFile) === 0) {
             $this->initializeMasterFile($masterFile);
         }
         try {
             $data = include $masterFile;
-            if (!is_array($data)) {
+            if (! is_array($data)) {
                 $data = ['Failed' => 'Operation failed, please try again later.'];
             }
         } catch (\Throwable $e) {
             $data = ['Failed' => 'Operation failed, please try again later.'];
         }
         $requestPath = app_path('Http/Requests');
-        if (!File::isDirectory($requestPath)) {
+        if (! File::isDirectory($requestPath)) {
             $this->error("Directory not found: {$requestPath}");
+
             return;
         }
         $files = File::allFiles($requestPath);
         foreach ($files as $file) {
             $className = $this->getClassFullNameFromFile($file);
-            if (!class_exists($className)) {
+            if (! class_exists($className)) {
                 continue;
             }
             $reflection = new ReflectionClass($className);
             if ($reflection->isAbstract()) {
                 continue;
             }
-            $request = new $className();
-            if (!isset($request->langPath) || !method_exists($request, 'rules')) {
+            $request = new $className;
+            if (! isset($request->langPath) || ! method_exists($request, 'rules')) {
                 continue;
             }
             $this->syncRequestToData($data, $request);
@@ -80,15 +81,17 @@ class LangCommand extends Command
         $this->saveDataToMasterFile($masterFile, $data);
         $this->info("Successfully batch synced all rules to: {$masterFile}");
     }
+
     protected function initializeMasterFile($path)
     {
         $dir = dirname($path);
-        if (!File::exists($dir)) {
+        if (! File::exists($dir)) {
             File::makeDirectory($dir, 0755, true);
         }
         $initial = "<?php\n\nreturn [\n    'Failed' => 'Operation failed, please try again later.',\n];\n";
         File::put($path, $initial);
     }
+
     protected function syncRequestToData(&$data, $request)
     {
         $parts = explode('.', $request->langPath);
@@ -97,7 +100,7 @@ class LangCommand extends Command
         }
         $temp = &$data;
         foreach ($parts as $step) {
-            if (!isset($temp[$step]) || !is_array($temp[$step])) {
+            if (! isset($temp[$step]) || ! is_array($temp[$step])) {
                 $temp[$step] = [];
             }
             $temp = &$temp[$step];
@@ -115,7 +118,7 @@ class LangCommand extends Command
                 $ruleName = head(explode(':', $rule));
                 $langKey = "{$field}.{$ruleName}";
 
-                if (!isset($temp[$langKey])) {
+                if (! isset($temp[$langKey])) {
                     $temp[$langKey] = '';
                 }
             }
@@ -130,7 +133,7 @@ class LangCommand extends Command
             "/\n\s*\)/" => ']',           // ) -> ]
             "/\)/" => ']',           // ) -> ]
             "/=>\s+\[/" => ' => [',      // => [
-            "/  /" => '    ',
+            '/  /' => '    ',
         ];
         $export = preg_replace(array_keys($patterns), array_values($patterns), $export);
         $content = "<?php\n\nreturn {$export};\n";
@@ -140,7 +143,8 @@ class LangCommand extends Command
     protected function getClassFullNameFromFile($file)
     {
         $relativePath = $file->getRelativePathname();
-        return "App\\Http\\Requests\\".str_replace(['/', '.php'], ['\\', ''], $relativePath);
+
+        return 'App\\Http\\Requests\\'.str_replace(['/', '.php'], ['\\', ''], $relativePath);
     }
 
     public function getArguments()
