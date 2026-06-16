@@ -80,6 +80,14 @@ interface RepositoryInterface
     public function find($id, $columns = ['*']);
 
     /**
+     * Find data by unique key and value
+     *
+     * @param  array  $columns
+     * @return mixed
+     */
+    public function findByUnique(array $criterias, $columns = ['*']);
+
+    /**
      * Find data by field and value
      *
      * @param  array  $columns
@@ -143,6 +151,15 @@ interface RepositoryInterface
      * @return mixed
      */
     public function updateOrCreate(array $attributes, array $values = []);
+
+    /**
+     * Update an entity in repository by unique key and value
+     *
+     *
+     *
+     * @return mixed
+     */
+    public function updateByUnique(array $attributes, array $criteria = []);
 
     /**
      * Delete a entity in repository by id

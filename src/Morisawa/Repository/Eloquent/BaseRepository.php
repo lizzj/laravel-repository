@@ -440,6 +440,25 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
     }
 
     /**
+     * Find data by unique key and value
+     *
+     * @param  array  $columns
+     * @return mixed
+     */
+    public function findByUnique(array $criterias, $columns = ['*'])
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $model = $this->model->where($criterias);
+        $model = $model->firstOrFail($columns);
+
+        $this->resetModel();
+
+        return $this->parserResult($model);
+    }
+
+    /**
      * Find data by field and value
      *
      * @param  array  $columns
@@ -556,6 +575,36 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
         $this->skipPresenter(true);
 
         $model = $this->model->findOrFail($id);
+
+        event(new RepositoryEntityUpdating($this, $model));
+
+        $model->fill($attributes);
+        $model->save();
+
+        $this->skipPresenter($temporarySkipPresenter);
+        $this->resetModel();
+
+        event(new RepositoryEntityUpdated($this, $model));
+
+        return $this->parserResult($model);
+    }
+
+    /**
+     * Update an entity in repository by unique key and value
+     *
+     *
+     * @return mixed
+     */
+    public function updateByUnique(array $attributes, array $criteria)
+    {
+        $this->applyScope();
+
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+
+        $model = $this->model
+            ->where($criteria)
+            ->firstOrFail();
 
         event(new RepositoryEntityUpdating($this, $model));
 
