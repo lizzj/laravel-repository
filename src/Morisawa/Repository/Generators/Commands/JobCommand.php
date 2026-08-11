@@ -2,7 +2,7 @@
 
 /*
  * @Author: もりさわかな
- * @LastEditTime: 2026-06-06 17:28:08
+ * @LastEditTime: 2026-08-04 17:03:45
  */
 
 namespace Morisawa\Repository\Generators\Commands;
@@ -85,7 +85,7 @@ class JobCommand extends Command
     protected function getOptions()
     {
         return [
-            ['path', ['p'], InputOption::VALUE_NONE, 'Create job.'],
+            ['path', 'p', InputOption::VALUE_OPTIONAL, 'Specify subpath (business, guardian, routine, support).'],
         ];
     }
 }
