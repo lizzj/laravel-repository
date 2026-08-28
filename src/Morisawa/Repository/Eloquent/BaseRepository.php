@@ -595,7 +595,7 @@ abstract class BaseRepository implements RepositoryCriteriaInterface, Repository
      *
      * @return mixed
      */
-    public function updateByUnique(array $attributes, array $criteria)
+    public function updateByUnique(array $attributes, array $criteria = [])
     {
         $this->applyScope();
 
